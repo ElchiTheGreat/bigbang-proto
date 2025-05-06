@@ -4,7 +4,7 @@ package client;
 
 option go_package = "github.com/ElchiTheGreat/bigbang-proto/client";
 
-import "identity.proto";
+import "client/identity.proto";
 
 // RegisterRequest contains client registration information
 message RegisterRequest {

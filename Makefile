@@ -1,6 +1,6 @@
 .PHONY: generate clean
 
-PROTO_FILES=$(shell find . -maxdepth 1 -name "*.proto")
+PROTO_FILES=$(shell find client -name "*.proto")
 GO_OUT_DIR=.
 
 generate:

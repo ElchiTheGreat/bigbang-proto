@@ -5,11 +5,11 @@ package client;
 option go_package = "github.com/ElchiTheGreat/bigbang-proto/client";
 
 // Import request messages
-import "request.proto";
-import "response.proto";
-import "identity.proto";
-import "register.proto";
-import "commands.proto";
+import "client/request.proto";
+import "client/response.proto";
+import "client/identity.proto";
+import "client/register.proto";
+import "client/commands.proto";
 
 // CommandService handles all client-server communication
 service CommandService {

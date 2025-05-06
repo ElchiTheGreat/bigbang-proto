@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package client;
+
+option go_package = ".;client";
+
+// Import request messages
+import "request.proto";
+import "response.proto";
+import "identity.proto";
+import "register.proto";
+import "commands.proto";
+
+// CommandService handles all client-server communication
+service CommandService {
+  // Register registers a client with the server
+  rpc Register(RegisterRequest) returns (RegisterResponse) {}
+  
+  // Unregister removes a client's registration from the server
+  rpc Unregister(UnregisterRequest) returns (UnregisterResponse) {}
+
+  // CommandStream establishes a bidirectional stream for commands
+  // Client initiates the connection and keeps it alive
+  // Server uses this stream to send commands and receive responses
+  rpc CommandStream(stream CommandResponse) returns (stream Command) {}
+}
+
+// Command represents a command to be executed by the client
+message Command {
+  Identity identity = 1;
+  string command_id = 2;
+  CommandType type = 3;
+  oneof payload {
+    RequestDeploy deploy = 10;
+    string text_output = 11;
+  }
+}
+
+// CommandResponse represents the response to a command
+message CommandResponse {
+  Identity identity = 1;
+  string command_id = 2;
+  bool success = 3;
+  string error = 4;
+  oneof result {
+    ResponseDeploy deploy = 10;
+    string text_output = 11;
+  }
+}

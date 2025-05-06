@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package client;
+
+option go_package = ".;client";
+
+message ResponseDeploy {
+  string files = 1;
+  string service = 2;
+  string network = 3;
+}

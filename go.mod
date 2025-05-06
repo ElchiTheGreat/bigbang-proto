@@ -1,4 +1,4 @@
-module github.com/yourusername/bigbang-proto
+module github.com/ElchiTheGreat/bigbang-proto
 
 go 1.23
 

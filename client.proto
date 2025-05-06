@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package client;
 
-option go_package = ".;client";
+option go_package = "github.com/ElchiTheGreat/bigbang-proto/client";
 
 // Import request messages
 import "request.proto";

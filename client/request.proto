@@ -9,5 +9,6 @@ message RequestDeploy {
   string name = 1;
   string ipv4 = 2;
   uint32 port = 3;
-  bytes bootstrap = 4;
+  string version = 4;
+  bytes bootstrap = 5;
 }

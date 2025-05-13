@@ -18,3 +18,9 @@ message RequestService {
   uint32 port = 2;
   uint32 count = 3;
 }
+
+message RequestUpdateBootstrap {
+  string name = 1;
+  uint32 port = 2;
+  bytes bootstrap = 3;
+}

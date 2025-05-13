@@ -10,6 +10,10 @@ message ResponseDeploy {
   string network = 3;
 }
 
+message ResponseUpdateBootstrap {
+  string name = 1;
+}
+
 message ResponseService {
   string name = 1;
   ServiceStatus status = 2;

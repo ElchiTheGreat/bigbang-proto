@@ -11,4 +11,5 @@ enum SubCommandType {
   SUB_RESTART = 3;
   SUB_RELOAD = 4;
   SUB_STATUS = 5;
+  SUB_LOGS = 6;
 }

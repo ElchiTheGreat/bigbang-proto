@@ -12,7 +12,18 @@ message ResponseDeploy {
 
 message ResponseService {
   string name = 1;
-  JournalLogs logs = 2;
+  string status = 2;
+  JournalLogs logs = 3;
+}
+
+message Status {
+  string loaded = 1;
+  string active = 2;
+  string main_pid = 3;
+  string tasks = 4;
+  string memory = 5;
+  string cpu = 6;
+  string cgroup = 7;
 }
 
 message JournalLogs {

@@ -10,14 +10,12 @@ message ResponseDeploy {
   string network = 3;
 }
 
-message ResponseUpdateBootstrap {
-  string name = 1;
-}
+message ResponseUpdateBootstrap { string name = 1; }
 
 message ResponseService {
   string name = 1;
   ServiceStatus status = 2;
-  JournalLogs logs = 3;
+  Journal journal = 3;
 }
 
 message ServiceStatus {
@@ -30,7 +28,7 @@ message ServiceStatus {
   repeated string cgroup = 7;
 }
 
-message JournalLogs {
+message Journal {
   string cmdline = 1;
   string unit = 2;
   string host = 3;

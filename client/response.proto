@@ -23,7 +23,7 @@ message ServiceStatus {
   string tasks = 4;
   string memory = 5;
   string cpu = 6;
-  string cgroup = 7;
+  repeated string cgroup = 7;
 }
 
 message JournalLogs {

@@ -12,11 +12,11 @@ message ResponseDeploy {
 
 message ResponseService {
   string name = 1;
-  string status = 2;
+  ServiceStatus status = 2;
   JournalLogs logs = 3;
 }
 
-message Status {
+message ServiceStatus {
   string loaded = 1;
   string active = 2;
   string main_pid = 3;

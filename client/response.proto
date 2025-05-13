@@ -12,7 +12,8 @@ message ResponseDeploy {
 
 message ResponseService {
   string name = 1;
-  repeated ServiceLogs logs = 2;
+  string cmdline = 2;
+  repeated ServiceLogs logs = 3;
 }
 
 message ServiceLogs {

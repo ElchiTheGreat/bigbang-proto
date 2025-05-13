@@ -12,3 +12,7 @@ message RequestDeploy {
   string version = 4;
   bytes bootstrap = 5;
 }
+
+message RequestService {
+  string name = 1;
+}

@@ -34,7 +34,7 @@ message Command {
   SubCommandType sub_type = 4;
   oneof payload {
     RequestDeploy deploy = 10;
-    string text_output = 11;
+    RequestService service = 11;
   }
 }
 
@@ -46,6 +46,6 @@ message CommandResponse {
   string error = 4;
   oneof result {
     ResponseDeploy deploy = 10;
-    string text_output = 11;
+    ResponseService service = 11;
   }
 }

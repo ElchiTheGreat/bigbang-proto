@@ -6,22 +6,18 @@ option go_package = "github.com/ElchiTheGreat/bigbang-proto/client";
 
 // CommandType defines all possible command types
 enum CommandType {
-    UNKNOWN = 0;
-  
-    // DEPLOY
-    DEPLOY = 1;
-    REDEPLOY = 2;
-    UNDEPLOY = 3;
-  
-    // CLIENT
-    CLIENT_LOG = 11;
-  
-    // SERVICES
-    SERVICE_START = 21;
-    SERVICE_STOP = 22;
-    SERVICE_RESTART = 23;
-    SERVICE_RELOAD = 24;
-    SERVICE_STATUS = 25;
-    SERVICE_LOG = 26;
-    SERVICE_CONFIG = 27;
+  UNKNOWN = 0;
+
+  // DEPLOY
+  DEPLOY = 1;
+  UNDEPLOY = 2;
+
+  // BOOTSTRAP
+  UPDATE_BOOTSTRAP = 11;
+
+  // CLIENT
+  CLIENT_LOG = 21;
+
+  // SERVICES
+  SERVICE = 31;
 }

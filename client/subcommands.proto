@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package client;
+
+option go_package = "github.com/ElchiTheGreat/bigbang-proto/client";
+
+enum SubCommandType {
+  SUB_UNKNOWN = 0;
+  SUB_START = 1;
+  SUB_STOP = 2;
+  SUB_RESTART = 3;
+  SUB_RELOAD = 4;
+  SUB_STATUS = 5;
+}

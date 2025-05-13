@@ -10,12 +10,13 @@ import "client/response.proto";
 import "client/identity.proto";
 import "client/register.proto";
 import "client/commands.proto";
+import "client/subcommands.proto";
 
 // CommandService handles all client-server communication
 service CommandService {
   // Register registers a client with the server
   rpc Register(RegisterRequest) returns (RegisterResponse) {}
-  
+
   // Unregister removes a client's registration from the server
   rpc Unregister(UnregisterRequest) returns (UnregisterResponse) {}
 
@@ -30,6 +31,7 @@ message Command {
   Identity identity = 1;
   string command_id = 2;
   CommandType type = 3;
+  SubCommandType sub_type = 4;
   oneof payload {
     RequestDeploy deploy = 10;
     string text_output = 11;

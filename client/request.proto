@@ -15,8 +15,7 @@ message RequestDeploy {
 
 message RequestUnDeploy {
   string name = 1;
-  string ipv4 = 2;
-  uint32 port = 3;
+  uint32 port = 2;
 }
 
 message RequestService {

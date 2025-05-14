@@ -41,3 +41,14 @@ message ServiceLogs {
   string component = 3;
   string timestamp = 4;
 }
+
+message ResponseEnvoyAdmin {
+  int32 status_code = 1;
+  string body = 3;
+}
+
+message ResponseUnDeploy {
+  string files = 1;
+  string service = 2;
+  string network = 3;
+}

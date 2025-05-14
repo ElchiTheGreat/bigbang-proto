@@ -36,6 +36,8 @@ message Command {
     RequestDeploy deploy = 10;
     RequestService service = 11;
     RequestUpdateBootstrap update_bootstrap = 12;
+    RequestEnvoyAdmin envoy_admin = 13;
+    RequestUnDeploy un_deploy = 14;
   }
 }
 
@@ -49,5 +51,7 @@ message CommandResponse {
     ResponseDeploy deploy = 10;
     ResponseService service = 11;
     ResponseUpdateBootstrap update_bootstrap = 12;
+    ResponseEnvoyAdmin envoy_admin = 13;
+    ResponseUnDeploy un_deploy = 14;
   }
 }

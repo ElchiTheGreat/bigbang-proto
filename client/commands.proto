@@ -20,4 +20,7 @@ enum CommandType {
 
   // SERVICES
   SERVICE = 31;
+
+  // ENVOY ADMIN
+  ENVOY_ADMIN = 41;
 }

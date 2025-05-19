@@ -44,7 +44,7 @@ message ServiceLogs {
 
 message ResponseEnvoyAdmin {
   int32 status_code = 1;
-  string body = 3;
+  string body = 2;
 }
 
 message ResponseUnDeploy {

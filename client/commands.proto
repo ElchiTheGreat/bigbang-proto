@@ -15,11 +15,11 @@ enum CommandType {
   // BOOTSTRAP
   UPDATE_BOOTSTRAP = 11;
 
-  // CLIENT
-  CLIENT_LOG = 21;
-
   // SERVICES
-  SERVICE = 31;
+  SERVICE = 21;
+
+  // CLIENT
+  CLIENT_LOG = 31;
 
   // ENVOY ADMIN
   ENVOY_ADMIN = 41;

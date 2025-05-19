@@ -30,10 +30,16 @@ message RequestUpdateBootstrap {
   bytes bootstrap = 3;
 }
 
+enum HttpMethod {
+  HTTP_METHOD_UNSPECIFIED = 0;
+  HTTP_METHOD_GET = 1;
+  HTTP_METHOD_POST = 2;
+}
+
 message RequestEnvoyAdmin {
   string name = 1;
   uint32 port = 2;
-  string method = 3;
+  HttpMethod method = 3;
   string path = 4;
   map<string, string> query = 5;
   string body = 6;

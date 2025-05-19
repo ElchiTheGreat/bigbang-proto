@@ -31,9 +31,9 @@ message RequestUpdateBootstrap {
 }
 
 enum HttpMethod {
-  HTTP_METHOD_UNSPECIFIED = 0;
-  HTTP_METHOD_GET = 1;
-  HTTP_METHOD_POST = 2;
+  UNSPECIFIED = 0;
+  GET = 1;
+  POST = 2;
 }
 
 message RequestEnvoyAdmin {

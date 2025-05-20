@@ -15,7 +15,7 @@ message ResponseUpdateBootstrap { string name = 1; }
 message ResponseService {
   string name = 1;
   ServiceStatus status = 2;
-  Journal journal = 3;
+  Logs logs = 3;
 }
 
 message ServiceStatus {
@@ -28,14 +28,7 @@ message ServiceStatus {
   repeated string cgroup = 7;
 }
 
-message Journal {
-  string cmdline = 1;
-  string unit = 2;
-  string host = 3;
-  repeated ServiceLogs logs = 4;
-}
-
-message ServiceLogs {
+message Logs {
   string message = 1;
   string level = 2;
   string component = 3;

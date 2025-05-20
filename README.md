@@ -1,4 +1,4 @@
-# BigBang Proto
+# Elchi Proto
 
 This repository contains Protocol Buffers (protobuf) definitions for client-server communication. These definitions are designed to be used across different projects.
 
@@ -9,19 +9,19 @@ This repository contains Protocol Buffers (protobuf) definitions for client-serv
 You can add this repository as a Go module to your projects:
 
 ```bash
-go get github.com/yourusername/bigbang-proto
+go get github.com/yourusername/elchi-proto
 ```
 
 Then import it in your code:
 
 ```go
-import "github.com/yourusername/bigbang-proto"
+import "github.com/yourusername/elchi-proto"
 ```
 
 ### As a Git Submodule
 
 ```bash
-git submodule add https://github.com/yourusername/bigbang-proto.git proto
+git submodule add https://github.com/yourusername/elchi-proto.git proto
 git submodule update --init --recursive
 ```
 

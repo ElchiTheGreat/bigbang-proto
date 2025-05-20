@@ -1,4 +1,4 @@
-module github.com/ElchiTheGreat/bigbang-proto
+module github.com/ElchiTheGreat/elchi-proto
 
 go 1.23
 

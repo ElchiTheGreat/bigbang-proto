@@ -41,6 +41,6 @@ message RequestEnvoyAdmin {
   uint32 port = 2;
   HttpMethod method = 3;
   string path = 4;
-  map<string, string> query = 5;
+  map<string, string> queries = 5;
   string body = 6;
 }

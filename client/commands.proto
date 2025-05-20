@@ -21,6 +21,6 @@ enum CommandType {
   // CLIENT
   CLIENT_LOG = 31;
 
-  // ENVOY ADMIN
-  ENVOY_ADMIN = 41;
+  // PROXY
+  PROXY = 41;
 }

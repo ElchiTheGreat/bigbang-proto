@@ -7,7 +7,7 @@ option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 // Deploy related messages
 message RequestDeploy {
   string name = 1;
-  string ipv4 = 2;
+  string downstream_address = 2;
   uint32 port = 3;
   string version = 4;
   bytes bootstrap = 5;

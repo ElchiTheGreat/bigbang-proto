@@ -8,6 +8,16 @@ message ResponseDeploy {
   string files = 1;
   string service = 2;
   string network = 3;
+  string downstream_address = 4;
+  uint32 port = 5;
+}
+
+message ResponseUnDeploy {
+  string files = 1;
+  string service = 2;
+  string network = 3;
+  string downstream_address = 4;
+  uint32 port = 5;
 }
 
 message ResponseUpdateBootstrap { string name = 1; }
@@ -41,8 +51,3 @@ message ResponseEnvoyAdmin {
   map<string, string> headers = 3;
 }
 
-message ResponseUnDeploy {
-  string files = 1;
-  string service = 2;
-  string network = 3;
-}

@@ -51,6 +51,13 @@ message ResponseEnvoyAdmin {
   map<string, string> headers = 3;
 }
 
-message ResponseClientLog {
-  repeated Logs logs = 1;
+message ClientLogs {
+  string message = 1;
+  string level = 2;
+  string module = 3;
+  string timestamp = 4;
+  string file = 5;
+  map<string, string> metadata = 6;
 }
+
+message ResponseClientLog { repeated ClientLogs logs = 1; }

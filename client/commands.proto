@@ -19,7 +19,7 @@ enum CommandType {
   SERVICE = 21;
 
   // CLIENT
-  CLIENT_LOG = 31;
+  CLIENT_LOGS = 31;
 
   // PROXY
   PROXY = 41;

@@ -51,3 +51,6 @@ message ResponseEnvoyAdmin {
   map<string, string> headers = 3;
 }
 
+message ResponseClientLog {
+  repeated Logs logs = 1;
+}

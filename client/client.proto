@@ -38,6 +38,7 @@ message Command {
     RequestUpdateBootstrap update_bootstrap = 12;
     RequestEnvoyAdmin envoy_admin = 13;
     RequestUnDeploy undeploy = 14;
+    RequestClientLog client_log = 15;
   }
 }
 
@@ -53,5 +54,6 @@ message CommandResponse {
     ResponseUpdateBootstrap update_bootstrap = 12;
     ResponseEnvoyAdmin envoy_admin = 13;
     ResponseUnDeploy undeploy = 14;
+    ResponseClientLog client_log = 15;
   }
 }

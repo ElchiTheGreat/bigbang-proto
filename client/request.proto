@@ -44,3 +44,7 @@ message RequestEnvoyAdmin {
   map<string, string> queries = 5;
   string body = 6;
 }
+
+message RequestClientLog {
+  uint32 count = 1;
+}

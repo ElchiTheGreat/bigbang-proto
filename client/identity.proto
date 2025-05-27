@@ -7,4 +7,5 @@ option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 message Identity {
     string client_id = 1;
     string session_token = 2;
+    string client_name = 3;
 }

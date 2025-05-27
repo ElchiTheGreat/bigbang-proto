@@ -25,7 +25,6 @@ message ResponseUpdateBootstrap { string name = 1; }
 message ResponseService {
   string name = 1;
   ServiceStatus status = 2;
-  repeated Logs logs = 3;
 }
 
 message ServiceStatus {

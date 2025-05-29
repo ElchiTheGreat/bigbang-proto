@@ -16,6 +16,7 @@ message RequestDeploy {
 message RequestUnDeploy {
   string name = 1;
   uint32 port = 2;
+  string downstream_address = 3;
 }
 
 message RequestService {

@@ -39,6 +39,7 @@ message Command {
     RequestEnvoyAdmin envoy_admin = 13;
     RequestUnDeploy undeploy = 14;
     RequestClientLog client_log = 15;
+    RequestClientStats client_stats = 16;
   }
 }
 
@@ -55,5 +56,6 @@ message CommandResponse {
     ResponseEnvoyAdmin envoy_admin = 13;
     ResponseUnDeploy undeploy = 14;
     ResponseClientLog client_log = 15;
+    ResponseClientStats client_stats = 16;
   }
 }

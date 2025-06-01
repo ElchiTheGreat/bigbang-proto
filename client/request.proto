@@ -46,11 +46,6 @@ message RequestEnvoyAdmin {
   string body = 6;
 }
 
-message RequestClientLog {
-  uint32 count = 1;
-}
+message RequestClientLog { uint32 count = 1; }
 
-message RequestClientStats {
-  string name = 1;
-  uint32 port = 2;
-}
+message RequestClientStats {}

@@ -23,8 +23,8 @@ message RequestService {
   string name = 1;
   uint32 port = 2;
   uint32 count = 3;
-  string level = 4;
-  string search = 5;
+  string search = 4;
+  repeated string levels = 5;
   repeated string components = 6;
 }
 

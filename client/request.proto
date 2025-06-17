@@ -4,6 +4,8 @@ package client;
 
 option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 
+import "client/network.proto";
+
 // Deploy related messages
 message RequestDeploy {
   string name = 1;
@@ -52,3 +54,7 @@ message RequestEnvoyAdmin {
 message RequestClientLog { uint32 count = 1; }
 
 message RequestClientStats {}
+
+message RequestNetwork {
+  InterfaceConfig interface_config = 1;
+}

@@ -24,4 +24,7 @@ enum CommandType {
 
   // PROXY
   PROXY = 41;
+
+  // NETWORK
+  NETWORK = 51;
 }

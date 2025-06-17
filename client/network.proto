@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package client;
+
+option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
+
+message InterfaceConfig {
+  string ifname = 1; // "enp0s1"
+
+  Interface interface = 2;   // Interface definition
+  repeated Route routes = 3; // Optional routing information
+}
+
+message Interface {
+  bool dhcp4 = 1;     // DHCP enabled
+  string address = 2; // "192.168.10.5/24"
+  uint32 mtu = 3;     // MTU (example: 1500)
+  repeated string nameservers = 4; // DNS servers (example: ["1.1.1.1", "8.8.8.8"])
+}
+
+message Route {
+  string to = 1;              // Destination CIDR (example: "0.0.0.0/0")
+  string via = 2;             // Gateway (example: "192.168.1.1")
+  optional uint32 table = 3;  // Optional route table
+  optional uint32 metric = 4; // Optional metric
+}

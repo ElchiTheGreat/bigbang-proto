@@ -5,6 +5,7 @@ package client;
 option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 
 enum SubCommandType {
+  // SERVICES
   SUB_UNKNOWN = 0;
   SUB_START = 1;
   SUB_STOP = 2;
@@ -12,4 +13,7 @@ enum SubCommandType {
   SUB_RELOAD = 4;
   SUB_STATUS = 5;
   SUB_LOGS = 6;
+
+  // NETWORK
+  SUB_NETWORK_SET_IF_CONFIG = 20;
 }

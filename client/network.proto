@@ -13,8 +13,8 @@ message Interfaces {
 
 message Interface {
   bool dhcp4 = 1;     // DHCP enabled
-  string address = 2; // "192.168.10.5/24"
-  uint32 mtu = 3;     // MTU (example: 1500)
+  repeated string addresses = 2; // "192.168.10.5/24"
+  uint32 mtu = 3;                // MTU (example: 1500)
   repeated string nameservers = 4; // DNS servers (example: ["1.1.1.1", "8.8.8.8"])
 }
 

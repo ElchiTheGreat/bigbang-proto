@@ -57,6 +57,4 @@ message RequestClientStats {}
 
 message RequestNetwork {
   repeated Interfaces interfaces = 1;
-  repeated Route routes = 2;
-  repeated RoutingPolicy routing_policies = 3;
 }

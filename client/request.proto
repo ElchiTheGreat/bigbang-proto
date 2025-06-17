@@ -56,5 +56,7 @@ message RequestClientLog { uint32 count = 1; }
 message RequestClientStats {}
 
 message RequestNetwork {
-  InterfaceConfig interface_config = 1;
+  repeated Interfaces interfaces = 1;
+  repeated Route routes = 2;
+  repeated RoutingPolicy routing_policies = 3;
 }

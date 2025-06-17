@@ -5,6 +5,7 @@ package client;
 option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 
 import "client/stats.proto";
+import "client/network.proto";
 
 message ResponseDeploy {
   string files = 1;
@@ -70,4 +71,10 @@ message ResponseClientStats {
   repeated DiskStats disk = 3;
   NetworkStats network = 4;
   SystemInfo system = 5;
+}
+
+message ResponseNetwork {
+  repeated Interfaces interfaces = 1;
+  repeated Route routes = 2;
+  repeated RoutingPolicy routing_policies = 3;
 }

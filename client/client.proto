@@ -40,6 +40,7 @@ message Command {
     RequestUnDeploy undeploy = 14;
     RequestClientLog client_log = 15;
     RequestClientStats client_stats = 16;
+    RequestNetwork network = 17;
   }
 }
 
@@ -57,5 +58,6 @@ message CommandResponse {
     ResponseUnDeploy undeploy = 14;
     ResponseClientLog client_log = 15;
     ResponseClientStats client_stats = 16;
+    ResponseNetwork network = 17;
   }
 }

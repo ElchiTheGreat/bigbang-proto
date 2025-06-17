@@ -4,11 +4,9 @@ package client;
 
 option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 
-message InterfaceConfig {
-  string ifname = 1; // "enp0s1"
-
-  Interface interface = 2;   // Interface definition
-  repeated Route routes = 3; // Optional routing information
+message Interfaces {
+  string ifname = 1;
+  Interface interface = 2;
 }
 
 message Interface {
@@ -23,4 +21,9 @@ message Route {
   string via = 2;             // Gateway (example: "192.168.1.1")
   optional uint32 table = 3;  // Optional route table
   optional uint32 metric = 4; // Optional metric
+}
+
+message RoutingPolicy {
+  string from = 1;
+  string table = 2;
 }

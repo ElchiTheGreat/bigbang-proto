@@ -16,7 +16,6 @@ message Interface {
   repeated string addresses = 2;
   uint32 mtu = 3;
   string state = 4;
-  repeated string nameservers = 5;
 }
 
 message Route {

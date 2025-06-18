@@ -7,8 +7,8 @@ option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 message Interfaces {
   string ifname = 1;
   Interface interface = 2;
-  Route route = 3;
-  RoutingPolicy routing_policy = 4;
+  repeated Route routes = 3;
+  repeated RoutingPolicy routing_policies = 4;
 }
 
 message Interface {

@@ -22,12 +22,14 @@ message Interface {
 message Route {
   string to = 1;
   string via = 2;
-  optional uint32 table = 3;
-  optional uint32 metric = 4;
-  string source = 5;
+  string scope = 3;
+  optional uint32 table = 4;
+  optional uint32 metric = 5;
+  string source = 6;
 }
 
 message RoutingPolicy {
   string from = 1;
-  uint32 table = 2;
+  string to = 2;
+  uint32 table = 3;
 }

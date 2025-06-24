@@ -29,5 +29,5 @@ message Route {
 
 message RoutingPolicy {
   string from = 1;
-  string table = 2;
+  uint32 table = 2;
 }

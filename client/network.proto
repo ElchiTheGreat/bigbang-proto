@@ -26,6 +26,7 @@ message Route {
   optional uint32 table = 4;
   optional uint32 metric = 5;
   string source = 6;
+  bool is_default = 7;
 }
 
 message RoutingPolicy {

@@ -33,4 +33,5 @@ message RoutingPolicy {
   string from = 1;
   string to = 2;
   uint32 table = 3;
+  uint32 priority = 4;
 }

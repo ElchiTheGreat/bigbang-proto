@@ -6,7 +6,7 @@ option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 
 import "client/stats.proto";
 import "client/network.proto";
-import "client/bgp.proto";
+import "client/frr.proto";
 
 message ResponseDeploy {
   string files = 1;
@@ -74,15 +74,12 @@ message ResponseClientStats {
   SystemInfo system = 5;
 }
 
-message ResponseNetwork {
-  repeated Interfaces interfaces = 1;
-}
+message ResponseNetwork { repeated Interfaces interfaces = 1; }
 
-message ResponseBgp {
-  BgpConfig config = 1;
-  BgpState state = 2;
-  repeated BgpNeighborState neighbors = 3;
-  repeated BgpRoute routes = 4;
-  BgpStatistics statistics = 5;
-  string operation_result = 6;
+message ResponseFrr {
+  FrrProtocolType protocol = 1;
+  bool success = 2;
+  string error = 3;
+  ResponseBgp bgp = 4;
+  ResponseStatic static = 5;
 }

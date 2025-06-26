@@ -28,5 +28,5 @@ enum CommandType {
   // NETWORK
   NETWORK = 51;
 
-  BGP=61;
+  FRR=61;
 }

@@ -40,7 +40,7 @@ type Command struct {
 	//	*Command_ClientLog
 	//	*Command_ClientStats
 	//	*Command_Network
-	//	*Command_Bgp
+	//	*Command_Frr
 	Payload isCommand_Payload `protobuf_oneof:"payload"`
 }
 
@@ -165,9 +165,9 @@ func (x *Command) GetNetwork() *RequestNetwork {
 	return nil
 }
 
-func (x *Command) GetBgp() *RequestBgp {
-	if x, ok := x.GetPayload().(*Command_Bgp); ok {
-		return x.Bgp
+func (x *Command) GetFrr() *RequestFrr {
+	if x, ok := x.GetPayload().(*Command_Frr); ok {
+		return x.Frr
 	}
 	return nil
 }
@@ -208,8 +208,8 @@ type Command_Network struct {
 	Network *RequestNetwork `protobuf:"bytes,17,opt,name=network,proto3,oneof"`
 }
 
-type Command_Bgp struct {
-	Bgp *RequestBgp `protobuf:"bytes,18,opt,name=bgp,proto3,oneof"`
+type Command_Frr struct {
+	Frr *RequestFrr `protobuf:"bytes,18,opt,name=frr,proto3,oneof"`
 }
 
 func (*Command_Deploy) isCommand_Payload() {}
@@ -228,7 +228,7 @@ func (*Command_ClientStats) isCommand_Payload() {}
 
 func (*Command_Network) isCommand_Payload() {}
 
-func (*Command_Bgp) isCommand_Payload() {}
+func (*Command_Frr) isCommand_Payload() {}
 
 // CommandResponse represents the response to a command
 type CommandResponse struct {
@@ -250,7 +250,7 @@ type CommandResponse struct {
 	//	*CommandResponse_ClientLog
 	//	*CommandResponse_ClientStats
 	//	*CommandResponse_Network
-	//	*CommandResponse_Bgp
+	//	*CommandResponse_Frr
 	Result isCommandResponse_Result `protobuf_oneof:"result"`
 }
 
@@ -375,9 +375,9 @@ func (x *CommandResponse) GetNetwork() *ResponseNetwork {
 	return nil
 }
 
-func (x *CommandResponse) GetBgp() *ResponseBgp {
-	if x, ok := x.GetResult().(*CommandResponse_Bgp); ok {
-		return x.Bgp
+func (x *CommandResponse) GetFrr() *ResponseFrr {
+	if x, ok := x.GetResult().(*CommandResponse_Frr); ok {
+		return x.Frr
 	}
 	return nil
 }
@@ -418,8 +418,8 @@ type CommandResponse_Network struct {
 	Network *ResponseNetwork `protobuf:"bytes,17,opt,name=network,proto3,oneof"`
 }
 
-type CommandResponse_Bgp struct {
-	Bgp *ResponseBgp `protobuf:"bytes,18,opt,name=bgp,proto3,oneof"`
+type CommandResponse_Frr struct {
+	Frr *ResponseFrr `protobuf:"bytes,18,opt,name=frr,proto3,oneof"`
 }
 
 func (*CommandResponse_Deploy) isCommandResponse_Result() {}
@@ -438,7 +438,7 @@ func (*CommandResponse_ClientStats) isCommandResponse_Result() {}
 
 func (*CommandResponse_Network) isCommandResponse_Result() {}
 
-func (*CommandResponse_Bgp) isCommandResponse_Result() {}
+func (*CommandResponse_Frr) isCommandResponse_Result() {}
 
 var File_client_client_proto protoreflect.FileDescriptor
 
@@ -494,9 +494,9 @@ var file_client_client_proto_rawDesc = []byte{
 	0x73, 0x12, 0x32, 0x0a, 0x07, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x18, 0x11, 0x20, 0x01,
 	0x28, 0x0b, 0x32, 0x16, 0x2e, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2e, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x48, 0x00, 0x52, 0x07, 0x6e, 0x65,
-	0x74, 0x77, 0x6f, 0x72, 0x6b, 0x12, 0x26, 0x0a, 0x03, 0x62, 0x67, 0x70, 0x18, 0x12, 0x20, 0x01,
+	0x74, 0x77, 0x6f, 0x72, 0x6b, 0x12, 0x26, 0x0a, 0x03, 0x66, 0x72, 0x72, 0x18, 0x12, 0x20, 0x01,
 	0x28, 0x0b, 0x32, 0x12, 0x2e, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2e, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x42, 0x67, 0x70, 0x48, 0x00, 0x52, 0x03, 0x62, 0x67, 0x70, 0x42, 0x09, 0x0a,
+	0x65, 0x73, 0x74, 0x46, 0x72, 0x72, 0x48, 0x00, 0x52, 0x03, 0x66, 0x72, 0x72, 0x42, 0x09, 0x0a,
 	0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x22, 0xa0, 0x05, 0x0a, 0x0f, 0x43, 0x6f, 0x6d,
 	0x6d, 0x61, 0x6e, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2c, 0x0a, 0x08,
 	0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10,
@@ -536,10 +536,10 @@ var file_client_client_proto_rawDesc = []byte{
 	0x61, 0x74, 0x73, 0x12, 0x33, 0x0a, 0x07, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x18, 0x11,
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2e, 0x52, 0x65,
 	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x48, 0x00, 0x52,
-	0x07, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x12, 0x27, 0x0a, 0x03, 0x62, 0x67, 0x70, 0x18,
+	0x07, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x12, 0x27, 0x0a, 0x03, 0x66, 0x72, 0x72, 0x18,
 	0x12, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2e, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x67, 0x70, 0x48, 0x00, 0x52, 0x03, 0x62, 0x67,
-	0x70, 0x42, 0x08, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x32, 0xd9, 0x01, 0x0a, 0x0e,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x46, 0x72, 0x72, 0x48, 0x00, 0x52, 0x03, 0x66, 0x72,
+	0x72, 0x42, 0x08, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x32, 0xd9, 0x01, 0x0a, 0x0e,
 	0x43, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3f,
 	0x0a, 0x08, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x12, 0x17, 0x2e, 0x63, 0x6c, 0x69,
 	0x65, 0x6e, 0x74, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75,
@@ -586,7 +586,7 @@ var file_client_client_proto_goTypes = []any{
 	(*RequestClientLog)(nil),        // 10: client.RequestClientLog
 	(*RequestClientStats)(nil),      // 11: client.RequestClientStats
 	(*RequestNetwork)(nil),          // 12: client.RequestNetwork
-	(*RequestBgp)(nil),              // 13: client.RequestBgp
+	(*RequestFrr)(nil),              // 13: client.RequestFrr
 	(*ResponseDeploy)(nil),          // 14: client.ResponseDeploy
 	(*ResponseService)(nil),         // 15: client.ResponseService
 	(*ResponseUpdateBootstrap)(nil), // 16: client.ResponseUpdateBootstrap
@@ -595,7 +595,7 @@ var file_client_client_proto_goTypes = []any{
 	(*ResponseClientLog)(nil),       // 19: client.ResponseClientLog
 	(*ResponseClientStats)(nil),     // 20: client.ResponseClientStats
 	(*ResponseNetwork)(nil),         // 21: client.ResponseNetwork
-	(*ResponseBgp)(nil),             // 22: client.ResponseBgp
+	(*ResponseFrr)(nil),             // 22: client.ResponseFrr
 	(*RegisterRequest)(nil),         // 23: client.RegisterRequest
 	(*UnregisterRequest)(nil),       // 24: client.UnregisterRequest
 	(*RegisterResponse)(nil),        // 25: client.RegisterResponse
@@ -613,7 +613,7 @@ var file_client_client_proto_depIdxs = []int32{
 	10, // 8: client.Command.client_log:type_name -> client.RequestClientLog
 	11, // 9: client.Command.client_stats:type_name -> client.RequestClientStats
 	12, // 10: client.Command.network:type_name -> client.RequestNetwork
-	13, // 11: client.Command.bgp:type_name -> client.RequestBgp
+	13, // 11: client.Command.frr:type_name -> client.RequestFrr
 	2,  // 12: client.CommandResponse.identity:type_name -> client.Identity
 	14, // 13: client.CommandResponse.deploy:type_name -> client.ResponseDeploy
 	15, // 14: client.CommandResponse.service:type_name -> client.ResponseService
@@ -623,7 +623,7 @@ var file_client_client_proto_depIdxs = []int32{
 	19, // 18: client.CommandResponse.client_log:type_name -> client.ResponseClientLog
 	20, // 19: client.CommandResponse.client_stats:type_name -> client.ResponseClientStats
 	21, // 20: client.CommandResponse.network:type_name -> client.ResponseNetwork
-	22, // 21: client.CommandResponse.bgp:type_name -> client.ResponseBgp
+	22, // 21: client.CommandResponse.frr:type_name -> client.ResponseFrr
 	23, // 22: client.CommandService.Register:input_type -> client.RegisterRequest
 	24, // 23: client.CommandService.Unregister:input_type -> client.UnregisterRequest
 	1,  // 24: client.CommandService.CommandStream:input_type -> client.CommandResponse
@@ -657,7 +657,7 @@ func file_client_client_proto_init() {
 		(*Command_ClientLog)(nil),
 		(*Command_ClientStats)(nil),
 		(*Command_Network)(nil),
-		(*Command_Bgp)(nil),
+		(*Command_Frr)(nil),
 	}
 	file_client_client_proto_msgTypes[1].OneofWrappers = []any{
 		(*CommandResponse_Deploy)(nil),
@@ -668,7 +668,7 @@ func file_client_client_proto_init() {
 		(*CommandResponse_ClientLog)(nil),
 		(*CommandResponse_ClientStats)(nil),
 		(*CommandResponse_Network)(nil),
-		(*CommandResponse_Bgp)(nil),
+		(*CommandResponse_Frr)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

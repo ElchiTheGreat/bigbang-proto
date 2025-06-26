@@ -1,0 +1,185 @@
+syntax = "proto3";
+
+package client;
+
+option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
+
+// ============================================================================
+// FRR Main Request & Response Messages  
+// ============================================================================
+
+
+
+
+
+enum FrrProtocolType {
+  FRR_PROTOCOL_BGP = 0;
+  FRR_PROTOCOL_STATIC = 1;
+}
+
+// ============================================================================
+// BGP Messages (Existing structure)
+// ============================================================================
+
+message RequestBgp {
+  BgpOperationType operation = 1;
+  BgpConfig config = 2;
+  BgpNeighbor neighbor = 3;
+  BgpNetwork network = 4;
+}
+
+message ResponseBgp {
+  BgpOperationType operation = 1;
+  BgpConfig config = 2;
+  repeated BgpNeighbor neighbors = 3;
+  repeated BgpNetwork networks = 4;
+  BgpState state = 5;
+  BgpStatistics statistics = 6;
+  string message = 7;
+}
+
+enum BgpOperationType {
+  BGP_GET_CONFIG = 0;
+  BGP_SET_CONFIG = 1;
+  BGP_GET_STATE = 2;
+  BGP_ADD_NEIGHBOR = 3;
+  BGP_REMOVE_NEIGHBOR = 4;
+  BGP_UPDATE_NEIGHBOR = 5;
+  BGP_RESET_NEIGHBOR = 6;
+  BGP_GET_NEIGHBORS = 7;
+  BGP_ADD_NETWORK = 8;
+  BGP_REMOVE_NETWORK = 9;
+  BGP_GET_ROUTES = 10;
+  BGP_GET_STATISTICS = 11;
+  BGP_CLEAR_SESSIONS = 12;
+  BGP_SOFT_RESET = 13;
+  BGP_SHUTDOWN = 14;
+  BGP_NO_SHUTDOWN = 15;
+}
+
+message BgpConfig {
+  uint32 autonomous_system = 1;
+  string router_id = 2;
+  repeated BgpNeighbor neighbors = 3;
+  repeated BgpNetwork networks = 4;
+  bool redistribute_connected = 5;
+  bool redistribute_static = 6;
+  uint32 keepalive_time = 7;
+  uint32 hold_time = 8;
+}
+
+message BgpNeighbor {
+  string peer_ip = 1;
+  uint32 remote_as = 2;
+  string description = 3;
+  string password = 4;
+  bool enabled = 5;
+  bool next_hop_self = 6;
+  uint32 weight = 7;
+  repeated string route_maps_in = 8;
+  repeated string route_maps_out = 9;
+}
+
+message BgpNetwork {
+  string network = 1;
+  string mask = 2;
+  bool advertise = 3;
+}
+
+message BgpState {
+  string status = 1;
+  uint32 uptime = 2;
+  repeated BgpNeighborState neighbor_states = 3;
+  uint32 total_routes = 4;
+  uint32 best_routes = 5;
+}
+
+message BgpNeighborState {
+  string peer_ip = 1;
+  string state = 2;
+  uint32 uptime = 3;
+  uint32 received_routes = 4;
+  uint32 sent_routes = 5;
+}
+
+message BgpStatistics {
+  uint32 total_neighbors = 1;
+  uint32 established_neighbors = 2;
+  uint32 total_routes = 3;
+  uint32 ipv4_routes = 4;
+  uint32 ipv6_routes = 5;
+  uint32 memory_usage = 6;
+}
+
+// ============================================================================
+// Static Routing Messages
+// ============================================================================
+
+message RequestStatic {
+  StaticOperationType operation = 1;
+  StaticConfig config = 2;
+  StaticRoute route = 3;
+  repeated StaticRoute routes = 4;
+}
+
+message ResponseStatic {
+  StaticOperationType operation = 1;
+  StaticConfig config = 2;
+  repeated StaticRoute routes = 3;
+  StaticStatistics statistics = 4;
+  string message = 5;
+}
+
+enum StaticOperationType {
+  STATIC_GET_ROUTES = 0;
+  STATIC_ADD_ROUTE = 1;
+  STATIC_REMOVE_ROUTE = 2;
+  STATIC_UPDATE_ROUTE = 3;
+  STATIC_GET_CONFIG = 4;
+  STATIC_SET_CONFIG = 5;
+  STATIC_CLEAR_ALL_ROUTES = 6;
+  STATIC_GET_STATISTICS = 7;
+  STATIC_RELOAD = 8;
+}
+
+message StaticRoute {
+  string destination = 1;        // 192.168.1.0/24
+  string gateway = 2;           // 10.0.0.1 
+  string interface = 3;         // eth0 (optional)
+  uint32 metric = 4;            // Route metric
+  uint32 distance = 5;          // Administrative distance (1-255)
+  string tag = 6;               // Route tag (optional)
+  bool blackhole = 7;           // Blackhole route
+  bool reject = 8;              // Reject route
+  string vrf = 9;               // VRF name (optional)
+  repeated string nexthops = 10; // Multiple nexthops for ECMP
+  bool enabled = 11;            // Route enabled/disabled
+}
+
+message StaticConfig {
+  repeated StaticRoute routes = 1;
+  bool ipv6_enabled = 2;
+  uint32 default_distance = 3;
+  repeated string vrfs = 4;
+  bool ecmp_enabled = 5;
+}
+
+message StaticStatistics {
+  uint32 total_routes = 1;
+  uint32 ipv4_routes = 2;
+  uint32 ipv6_routes = 3;
+  uint32 blackhole_routes = 4;
+  uint32 reject_routes = 5;
+  uint32 active_routes = 6;
+  uint32 inactive_routes = 7;
+  repeated StaticRouteStatus route_status = 8;
+}
+
+message StaticRouteStatus {
+  string destination = 1;
+  string gateway = 2;
+  bool active = 3;
+  string status = 4;           // "installed", "pending", "failed"
+  string last_update = 5;
+  string interface = 6;
+} 

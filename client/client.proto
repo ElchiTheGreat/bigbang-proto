@@ -41,6 +41,7 @@ message Command {
     RequestClientLog client_log = 15;
     RequestClientStats client_stats = 16;
     RequestNetwork network = 17;
+    RequestBgp bgp = 18;
   }
 }
 
@@ -59,5 +60,6 @@ message CommandResponse {
     ResponseClientLog client_log = 15;
     ResponseClientStats client_stats = 16;
     ResponseNetwork network = 17;
+    ResponseBgp bgp = 18;
   }
 }

@@ -5,6 +5,7 @@ package client;
 option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 
 import "client/network.proto";
+import "client/bgp.proto";
 
 // Deploy related messages
 message RequestDeploy {
@@ -57,4 +58,15 @@ message RequestClientStats {}
 
 message RequestNetwork {
   repeated Interfaces interfaces = 1;
+}
+
+message RequestBgp {
+  BgpOperationType operation = 1;
+  BgpConfig config = 2;
+  BgpNeighbor neighbor = 3;
+  BgpNetwork network = 4;
+  string peer_ip = 5;
+  string network_cidr = 6;
+  RouteMap route_map = 7;
+  PrefixList prefix_list = 8;
 }

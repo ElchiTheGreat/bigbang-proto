@@ -357,6 +357,7 @@ message BgpStatistics {
   BgpGlobalStatistics global_stats = 7;
   repeated BgpTableStatistics table_stats = 8;
   BgpMessageStatistics message_stats = 9;
+  repeated BgpNeighborStatistics neighbor_stats = 10;
 }
 
 message BgpGlobalStatistics {
@@ -394,6 +395,25 @@ message BgpMessageStatistics {
   uint64 capability_received = 12;
   uint64 total_sent = 13;
   uint64 total_received = 14;
+}
+
+// BGP Neighbor Statistics
+message BgpNeighborStatistics {
+  string peer_ip = 1;
+  uint64 messages_sent = 2;
+  uint64 messages_received = 3;
+  uint64 updates_sent = 4;
+  uint64 updates_received = 5;
+  uint64 keepalives_sent = 6;
+  uint64 keepalives_received = 7;
+  uint64 notifications_sent = 8;
+  uint64 notifications_received = 9;
+  uint64 route_refreshes_sent = 10;
+  uint64 route_refreshes_received = 11;
+  uint32 prefixes_received = 12;
+  uint32 prefixes_sent = 13;
+  string state = 14;
+  uint64 uptime = 15;
 }
 
 // =================== STATIC ROUTING CONFIGURATION ===================

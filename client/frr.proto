@@ -43,6 +43,8 @@ enum BgpOperationType {
   BGP_SET_COMMUNITY = 18;      // New
   BGP_CLEAR_COMMUNITY = 19;    // New
   BGP_GET_SUMMARY = 20;        // New
+  BGP_CLEAR_SESSION = 21;      // Clear BGP session
+  BGP_RESET = 22;              // Reset BGP configuration
 }
 
 // Extended BGP Configuration

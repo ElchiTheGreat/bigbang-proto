@@ -44,6 +44,9 @@ enum BgpOperationType {
   BGP_RESET = 22;
   BGP_SHOW_NEIGHBORS = 23;       // show bgp ipv4 neighbors json
   BGP_SHOW_ROUTES = 24;          // show bgp ipv4 unicast json
+  BGP_GET_STATUS = 25;           // comprehensive status with cache/performance info
+  BGP_CLEAR_CACHE = 26;          // clear BGP caches
+  BGP_OPTIMIZE_CACHE = 27;       // optimize BGP caches
 }
 
 // Simplified BGP Configuration (IPv4 only)
@@ -580,10 +583,13 @@ message RequestBgp {
   BgpConfig config = 2;
   BgpNeighbor neighbor = 3;
   BgpNetwork network = 4;
-  BgpRouteMap route_map = 5;
-  BgpCommunityList community_list = 6;
-  BgpPrefixList prefix_list = 7;
-  string filter_name = 8;
+  string peer_ip = 5;
+  string network_prefix = 6;
+  BgpRouteMap route_map = 7;
+  BgpCommunityList community_list = 8;
+  BgpPrefixList prefix_list = 9;
+  string community = 10;
+  uint32 as_number = 11;          // AS number for status and cache operations
 }
 
 // BGP Response
@@ -604,6 +610,9 @@ message ResponseBgp {
   ShowBgpSummary show_summary = 12;
   ShowBgpNeighbors show_neighbors = 13;
   ShowBgpRoutes show_routes = 14;
+  
+  // Comprehensive status and performance info
+  BgpStatus status = 15;
 }
 
 // Static Routing Request

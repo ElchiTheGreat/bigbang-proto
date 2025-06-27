@@ -609,7 +609,7 @@ func (x *RequestFrr) GetProtocol() FrrProtocolType {
 	if x != nil {
 		return x.Protocol
 	}
-	return FrrProtocolType_FRR_PROTOCOL_BGP
+	return FrrProtocolType_FRR_PROTOCOL_UNKNOWN
 }
 
 func (x *RequestFrr) GetBgp() *RequestBgp {

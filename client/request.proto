@@ -63,3 +63,4 @@ message RequestFrr {
   RequestBgp bgp = 2;
   RequestStatic static = 3;
 }
+

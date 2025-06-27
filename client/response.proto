@@ -75,11 +75,9 @@ message ResponseClientStats {
 }
 
 message ResponseNetwork { repeated Interfaces interfaces = 1; }
-
 message ResponseFrr {
   FrrProtocolType protocol = 1;
   bool success = 2;
-  string error = 3;
-  ResponseBgp bgp = 4;
-  ResponseStatic static = 5;
+  ResponseBgp bgp = 3;
+  ResponseStatic static = 4;
 }

@@ -8,178 +8,719 @@ option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 // FRR Main Request & Response Messages  
 // ============================================================================
 
-
-
-
-
 enum FrrProtocolType {
-  FRR_PROTOCOL_BGP = 0;
-  FRR_PROTOCOL_STATIC = 1;
+  FRR_PROTOCOL_UNKNOWN = 0;
+  FRR_PROTOCOL_BGP = 1;
+  FRR_PROTOCOL_STATIC = 2;
+  FRR_PROTOCOL_OSPF = 3;    // Future
+  FRR_PROTOCOL_RIP = 4;     // Future
+  FRR_PROTOCOL_ISIS = 5;    // Future
 }
 
 // ============================================================================
 // BGP Messages (Existing structure)
 // ============================================================================
 
-message RequestBgp {
-  BgpOperationType operation = 1;
-  BgpConfig config = 2;
-  BgpNeighbor neighbor = 3;
-  BgpNetwork network = 4;
-}
-
-message ResponseBgp {
-  BgpOperationType operation = 1;
-  BgpConfig config = 2;
-  repeated BgpNeighbor neighbors = 3;
-  repeated BgpNetwork networks = 4;
-  BgpState state = 5;
-  BgpStatistics statistics = 6;
-  string message = 7;
-}
-
 enum BgpOperationType {
-  BGP_GET_CONFIG = 0;
-  BGP_SET_CONFIG = 1;
-  BGP_GET_STATE = 2;
-  BGP_ADD_NEIGHBOR = 3;
-  BGP_REMOVE_NEIGHBOR = 4;
-  BGP_UPDATE_NEIGHBOR = 5;
-  BGP_RESET_NEIGHBOR = 6;
-  BGP_GET_NEIGHBORS = 7;
-  BGP_ADD_NETWORK = 8;
-  BGP_REMOVE_NETWORK = 9;
-  BGP_GET_ROUTES = 10;
-  BGP_GET_STATISTICS = 11;
-  BGP_CLEAR_SESSIONS = 12;
-  BGP_SOFT_RESET = 13;
-  BGP_SHUTDOWN = 14;
-  BGP_NO_SHUTDOWN = 15;
+  BGP_UNKNOWN = 0;
+  BGP_GET_CONFIG = 1;
+  BGP_SET_CONFIG = 2;
+  BGP_GET_STATE = 3;
+  BGP_ADD_NEIGHBOR = 4;
+  BGP_REMOVE_NEIGHBOR = 5;
+  BGP_UPDATE_NEIGHBOR = 6;
+  BGP_RESET_NEIGHBOR = 7;
+  BGP_GET_NEIGHBORS = 8;
+  BGP_ADD_NETWORK = 9;
+  BGP_REMOVE_NETWORK = 10;
+  BGP_GET_ROUTES = 11;
+  BGP_GET_STATISTICS = 12;
+  BGP_CLEAR_ROUTES = 13;
+  BGP_ENABLE = 14;
+  BGP_DISABLE = 15;
+  BGP_APPLY_ROUTE_MAP = 16;    // New
+  BGP_REMOVE_ROUTE_MAP = 17;   // New
+  BGP_SET_COMMUNITY = 18;      // New
+  BGP_CLEAR_COMMUNITY = 19;    // New
+  BGP_GET_SUMMARY = 20;        // New
 }
 
+// Extended BGP Configuration
 message BgpConfig {
   uint32 autonomous_system = 1;
   string router_id = 2;
   repeated BgpNeighbor neighbors = 3;
   repeated BgpNetwork networks = 4;
-  bool redistribute_connected = 5;
-  bool redistribute_static = 6;
-  uint32 keepalive_time = 7;
-  uint32 hold_time = 8;
+  uint32 keepalive_time = 5;
+  uint32 hold_time = 6;
+  bool redistribute_connected = 7;
+  bool redistribute_static = 8;
+  
+  // Extended fields
+  BgpGlobalConfig global_config = 9;
+  BgpIpv6Config ipv6_config = 10;
+  repeated BgpRouteMap route_maps = 11;
+  repeated BgpCommunityList community_lists = 12;
+  repeated BgpPrefixList prefix_lists = 13;
+  BgpConfederation confederation = 14;
+  BgpRouteReflector route_reflector = 15;
+  BgpGracefulRestart graceful_restart = 16;
+  repeated BgpAggregateAddress aggregate_addresses = 17;
+  BgpDefaultOriginate default_originate = 18;
+  uint32 maximum_paths = 19;
+  uint32 administrative_distance = 20;
+  bool deterministic_med = 21;
+  bool always_compare_med = 22;
+  uint32 scan_time = 23;
+  bool log_neighbor_changes = 24;
+  uint32 cluster_id = 25;  // Route Reflector cluster ID
 }
 
+// Global BGP configuration
+message BgpGlobalConfig {
+  uint32 ebgp_admin_distance = 1;      // Default: 20
+  uint32 ibgp_admin_distance = 2;      // Default: 200
+  uint32 local_admin_distance = 3;     // Default: 200
+  uint32 bgp_scan_time = 4;            // Default: 60 seconds
+  bool fast_external_fallover = 5;     // Default: true
+  bool log_neighbor_changes = 6;       // Default: false
+  bool deterministic_med = 7;          // Default: false
+  bool always_compare_med = 8;         // Default: false
+  bool bestpath_as_path_ignore = 9;
+  bool bestpath_med_missing_as_worst = 10;
+  bool bestpath_compare_routerid = 11;
+  string bgp_router_id = 12;
+  uint32 connect_retry_timer = 13;     // Default: 120
+  uint32 default_local_preference = 14; // Default: 100
+}
+
+// IPv6 BGP configuration
+message BgpIpv6Config {
+  bool ipv6_unicast_enabled = 1;
+  repeated BgpNeighbor ipv6_neighbors = 2;
+  repeated BgpNetwork ipv6_networks = 3;
+  bool redistribute_connected_ipv6 = 4;
+  bool redistribute_static_ipv6 = 5;
+  uint32 maximum_paths_ipv6 = 6;
+}
+
+// Extended BGP Neighbor Configuration
 message BgpNeighbor {
   string peer_ip = 1;
   uint32 remote_as = 2;
   string description = 3;
   string password = 4;
-  bool enabled = 5;
-  bool next_hop_self = 6;
-  uint32 weight = 7;
-  repeated string route_maps_in = 8;
-  repeated string route_maps_out = 9;
+  
+  // Extended neighbor configuration
+  BgpNeighborTimers timers = 5;
+  BgpNeighborCapabilities capabilities = 6;
+  BgpNeighborRouteMaps route_maps = 7;
+  BgpNeighborPrefixLists prefix_lists = 8;
+  BgpNeighborFilterLists filter_lists = 9;
+  BgpNeighborDistributeLists distribute_lists = 10;
+  
+  // Neighbor flags and settings
+  bool next_hop_self = 11;
+  bool route_reflector_client = 12;
+  bool send_community = 13;
+  bool send_extended_community = 14;
+  bool soft_reconfiguration_inbound = 15;
+  bool shutdown = 16;
+  
+  // Source interface/IP
+  string update_source = 17;
+  string interface = 18;
+  
+  // AS path options
+  uint32 local_as = 19;
+  bool local_as_no_prepend = 20;
+  bool local_as_replace_as = 21;
+  uint32 allowas_in = 22;
+  
+  // Weight and preferences
+  uint32 weight = 23;               // Cisco weight
+  uint32 local_preference = 24;
+  
+  // Connection settings
+  bool ebgp_multihop = 25;
+  uint32 ebgp_multihop_ttl = 26;
+  bool disable_connected_check = 27;
+  
+  // Community settings
+  bool send_community_standard = 28;
+  bool send_community_extended = 29;
+  bool send_community_large = 30;
+  
+  // BFD settings
+  bool bfd_enable = 31;
+  uint32 bfd_detect_multiplier = 32;
+  uint32 bfd_required_min_rx = 33;
+  uint32 bfd_desired_min_tx = 34;
 }
 
+// BGP Neighbor Timers
+message BgpNeighborTimers {
+  uint32 keepalive = 1;    // Default: 60
+  uint32 holdtime = 2;     // Default: 180
+  uint32 connect_retry = 3; // Default: 120
+}
+
+// BGP Neighbor Capabilities
+message BgpNeighborCapabilities {
+  bool multiprotocol_ipv4_unicast = 1;
+  bool multiprotocol_ipv6_unicast = 2;
+  bool route_refresh = 3;
+  bool four_octet_as = 4;
+  bool add_path_tx = 5;
+  bool add_path_rx = 6;
+  bool extended_nexthop = 7;
+  bool graceful_restart = 8;
+  bool long_lived_graceful_restart = 9;
+}
+
+// BGP Neighbor Route Maps
+message BgpNeighborRouteMaps {
+  string route_map_in = 1;
+  string route_map_out = 2;
+  string route_map_import = 3;
+  string route_map_export = 4;
+}
+
+// BGP Neighbor Prefix Lists
+message BgpNeighborPrefixLists {
+  string prefix_list_in = 1;
+  string prefix_list_out = 2;
+}
+
+// BGP Neighbor Filter Lists (AS-path filters)
+message BgpNeighborFilterLists {
+  string filter_list_in = 1;
+  string filter_list_out = 2;
+}
+
+// BGP Neighbor Distribute Lists (Access lists)
+message BgpNeighborDistributeLists {
+  string distribute_list_in = 1;
+  string distribute_list_out = 2;
+}
+
+// Extended BGP Network Configuration
 message BgpNetwork {
-  string network = 1;
-  string mask = 2;
-  bool advertise = 3;
+  string network = 1;  // CIDR format
+  
+  // Extended network configuration
+  string route_map = 2;
+  bool backdoor = 3;
+  uint32 label = 4;      // MPLS label
+  repeated string route_target = 5; // VPN route targets
+  uint32 administrative_distance = 6;
+  string next_hop = 7;   // Static next-hop override
 }
 
+// BGP Route Map Configuration
+message BgpRouteMap {
+  string name = 1;
+  uint32 sequence = 2;
+  BgpRouteMapAction action = 3;  // permit/deny
+  repeated BgpRouteMapMatch match_conditions = 4;
+  repeated BgpRouteMapSet set_actions = 5;
+  string description = 6;
+}
+
+enum BgpRouteMapAction {
+  ROUTE_MAP_UNKNOWN = 0;
+  ROUTE_MAP_PERMIT = 1;
+  ROUTE_MAP_DENY = 2;
+}
+
+// BGP Route Map Match Conditions
+message BgpRouteMapMatch {
+  string match_type = 1;    // "as-path", "community", "prefix-list", etc.
+  string match_value = 2;
+  bool exact_match = 3;
+}
+
+// BGP Route Map Set Actions
+message BgpRouteMapSet {
+  string set_type = 1;      // "local-preference", "metric", "community", etc.
+  string set_value = 2;
+  bool additive = 3;        // For community, as-path-prepend
+}
+
+// BGP Community List
+message BgpCommunityList {
+  string name = 1;
+  uint32 sequence = 2;
+  BgpRouteMapAction action = 3;
+  string community_value = 4;  // "1000:2000" or "internet", "local-as", etc.
+  bool exact_match = 5;
+}
+
+// BGP Prefix List
+message BgpPrefixList {
+  string name = 1;
+  uint32 sequence = 2;
+  BgpRouteMapAction action = 3;
+  string prefix = 4;       // Network prefix
+  uint32 le = 5;           // Less than or equal
+  uint32 ge = 6;           // Greater than or equal
+}
+
+// BGP Confederation
+message BgpConfederation {
+  uint32 confederation_id = 1;
+  repeated uint32 confederation_peers = 2;
+}
+
+// BGP Route Reflector
+message BgpRouteReflector {
+  uint32 cluster_id = 1;
+  repeated string client_list = 2;  // Client IP addresses
+}
+
+// BGP Graceful Restart
+message BgpGracefulRestart {
+  bool enabled = 1;
+  uint32 restart_time = 2;     // Default: 120 seconds
+  uint32 stalepath_time = 3;   // Default: 360 seconds
+  bool preserve_fw_state = 4;
+}
+
+// BGP Aggregate Address
+message BgpAggregateAddress {
+  string network = 1;      // CIDR format
+  bool summary_only = 2;
+  bool as_set = 3;
+  string route_map = 4;
+  uint32 administrative_distance = 5;
+}
+
+// BGP Default Originate
+message BgpDefaultOriginate {
+  bool enabled = 1;
+  string route_map = 2;
+  uint32 metric = 3;
+}
+
+// BGP State Information
 message BgpState {
   string status = 1;
-  uint32 uptime = 2;
+  uint64 uptime = 2;
   repeated BgpNeighborState neighbor_states = 3;
   uint32 total_routes = 4;
   uint32 best_routes = 5;
+  
+  // Extended state information
+  BgpGlobalState global_state = 6;
+  repeated BgpTableState table_states = 7;
+  BgpMemoryUsage memory_usage = 8;
 }
 
+// BGP Global State
+message BgpGlobalState {
+  uint32 bgp_version = 1;
+  uint32 local_as = 2;
+  string local_router_id = 3;
+  uint32 total_peers = 4;
+  uint32 established_peers = 5;
+  uint64 table_version = 6;
+  uint64 config_id = 7;
+}
+
+// BGP Table State
+message BgpTableState {
+  string afi_safi = 1;      // "ipv4-unicast", "ipv6-unicast", etc.
+  uint32 total_prefixes = 2;
+  uint32 total_paths = 3;
+  uint32 best_paths = 4;
+  uint32 memory_usage = 5;
+}
+
+// BGP Memory Usage
+message BgpMemoryUsage {
+  uint64 total_memory = 1;
+  uint64 rib_memory = 2;
+  uint64 neighbor_memory = 3;
+  uint64 attribute_memory = 4;
+  uint64 as_path_memory = 5;
+  uint64 community_memory = 6;
+}
+
+// Extended BGP Neighbor State
 message BgpNeighborState {
   string peer_ip = 1;
-  string state = 2;
-  uint32 uptime = 3;
-  uint32 received_routes = 4;
-  uint32 sent_routes = 5;
+  uint32 remote_as = 2;
+  string state = 3;
+  uint64 uptime = 4;
+  uint32 received_routes = 5;
+  uint32 sent_routes = 6;
+  
+  // Extended neighbor state
+  BgpNeighborStatistics statistics = 7;
+  BgpNeighborCapabilitiesState capabilities_state = 8;
+  BgpNeighborTimerState timer_state = 9;
+  BgpNeighborConnectionState connection_state = 10;
 }
 
+// BGP Neighbor Statistics
+message BgpNeighborStatistics {
+  uint64 messages_sent = 1;
+  uint64 messages_received = 2;
+  uint64 keepalives_sent = 3;
+  uint64 keepalives_received = 4;
+  uint64 updates_sent = 5;
+  uint64 updates_received = 6;
+  uint64 notifications_sent = 7;
+  uint64 notifications_received = 8;
+  uint64 opens_sent = 9;
+  uint64 opens_received = 10;
+  uint64 route_refreshes_sent = 11;
+  uint64 route_refreshes_received = 12;
+  uint64 total_prefixes_sent = 13;
+  uint64 total_prefixes_received = 14;
+  uint64 last_reset_time = 15;
+  string last_reset_reason = 16;
+}
+
+// BGP Neighbor Capabilities State
+message BgpNeighborCapabilitiesState {
+  repeated string announced_capabilities = 1;
+  repeated string received_capabilities = 2;
+  repeated string negotiated_capabilities = 3;
+}
+
+// BGP Neighbor Timer State
+message BgpNeighborTimerState {
+  uint32 connect_retry_timer = 1;
+  uint32 hold_timer = 2;
+  uint32 keepalive_timer = 3;
+  uint64 last_read = 4;
+  uint64 last_write = 5;
+}
+
+// BGP Neighbor Connection State
+message BgpNeighborConnectionState {
+  string connection_state = 1;   // "Idle", "Connect", "Active", "OpenSent", "OpenConfirm", "Established"
+  string local_host = 2;
+  uint32 local_port = 3;
+  string foreign_host = 4;
+  uint32 foreign_port = 5;
+  string next_hop = 6;
+  uint32 next_hop_metric = 7;
+}
+
+// Extended BGP Statistics
 message BgpStatistics {
   uint32 total_neighbors = 1;
   uint32 established_neighbors = 2;
   uint32 total_routes = 3;
   uint32 ipv4_routes = 4;
   uint32 ipv6_routes = 5;
-  uint32 memory_usage = 6;
+  uint64 memory_usage = 6;
+  
+  // Extended statistics
+  BgpGlobalStatistics global_stats = 7;
+  repeated BgpTableStatistics table_stats = 8;
+  BgpMessageStatistics message_stats = 9;
 }
 
-// ============================================================================
-// Static Routing Messages
-// ============================================================================
-
-message RequestStatic {
-  StaticOperationType operation = 1;
-  StaticConfig config = 2;
-  StaticRoute route = 3;
-  repeated StaticRoute routes = 4;
+// BGP Global Statistics
+message BgpGlobalStatistics {
+  uint64 updates_sent = 1;
+  uint64 updates_received = 2;
+  uint64 total_messages_sent = 3;
+  uint64 total_messages_received = 4;
+  uint64 dampened_routes = 5;
+  uint64 history_routes = 6;
+  uint64 suppressed_routes = 7;
+  uint64 withdraw_messages = 8;
 }
 
-message ResponseStatic {
-  StaticOperationType operation = 1;
-  StaticConfig config = 2;
-  repeated StaticRoute routes = 3;
-  StaticStatistics statistics = 4;
-  string message = 5;
+// BGP Table Statistics
+message BgpTableStatistics {
+  string afi_safi = 1;
+  uint32 rib_entries = 2;
+  uint32 rib_memory = 3;
+  uint32 paths = 4;
+  uint32 memory_usage = 5;
 }
+
+// BGP Message Statistics
+message BgpMessageStatistics {
+  uint64 opens_sent = 1;
+  uint64 opens_received = 2;
+  uint64 updates_sent = 3;
+  uint64 updates_received = 4;
+  uint64 keepalives_sent = 5;
+  uint64 keepalives_received = 6;
+  uint64 notifications_sent = 7;
+  uint64 notifications_received = 8;
+  uint64 route_refreshes_sent = 9;
+  uint64 route_refreshes_received = 10;
+}
+
+// =================== STATIC ROUTING CONFIGURATION ===================
 
 enum StaticOperationType {
-  STATIC_GET_ROUTES = 0;
-  STATIC_ADD_ROUTE = 1;
-  STATIC_REMOVE_ROUTE = 2;
-  STATIC_UPDATE_ROUTE = 3;
-  STATIC_GET_CONFIG = 4;
-  STATIC_SET_CONFIG = 5;
-  STATIC_CLEAR_ALL_ROUTES = 6;
-  STATIC_GET_STATISTICS = 7;
-  STATIC_RELOAD = 8;
+  STATIC_UNKNOWN = 0;
+  STATIC_GET_ROUTES = 1;
+  STATIC_ADD_ROUTE = 2;
+  STATIC_REMOVE_ROUTE = 3;
+  STATIC_UPDATE_ROUTE = 4;
+  STATIC_GET_CONFIG = 5;
+  STATIC_SET_CONFIG = 6;
+  STATIC_CLEAR_ALL_ROUTES = 7;
+  STATIC_GET_STATISTICS = 8;
+  STATIC_RELOAD_CONFIG = 9;
+  STATIC_GET_ROUTE_TABLE = 10;     // New
+  STATIC_FLUSH_ROUTE_TABLE = 11;   // New
+  STATIC_GET_NEXTHOP_GROUPS = 12;  // New
 }
 
-message StaticRoute {
-  string destination = 1;        // 192.168.1.0/24
-  string gateway = 2;           // 10.0.0.1 
-  string interface = 3;         // eth0 (optional)
-  uint32 metric = 4;            // Route metric
-  uint32 distance = 5;          // Administrative distance (1-255)
-  string tag = 6;               // Route tag (optional)
-  bool blackhole = 7;           // Blackhole route
-  bool reject = 8;              // Reject route
-  string vrf = 9;               // VRF name (optional)
-  repeated string nexthops = 10; // Multiple nexthops for ECMP
-  bool enabled = 11;            // Route enabled/disabled
-}
-
+// Static Route Configuration
 message StaticConfig {
   repeated StaticRoute routes = 1;
-  bool ipv6_enabled = 2;
-  uint32 default_distance = 3;
-  repeated string vrfs = 4;
-  bool ecmp_enabled = 5;
+  repeated StaticRouteTable route_tables = 2;
+  repeated StaticNexthopGroup nexthop_groups = 3;
+  StaticGlobalConfig global_config = 4;
 }
 
+// Static Global Configuration
+message StaticGlobalConfig {
+  uint32 default_administrative_distance = 1;  // Default: 1
+  uint32 default_metric = 2;                   // Default: 0
+  bool ip_forward = 3;                         // IP forwarding enabled
+  bool ipv6_forward = 4;                       // IPv6 forwarding enabled
+  uint32 fib_lookup_retries = 5;               // FIB lookup retries
+}
+
+// Static Route
+message StaticRoute {
+  string destination = 1;        // Network in CIDR format
+  string gateway = 2;            // Next-hop IP or interface
+  string interface = 3;          // Outgoing interface
+  uint32 metric = 4;             // Route metric
+  uint32 administrative_distance = 5; // Administrative distance
+  uint32 table = 6;              // Route table ID
+  string description = 7;        // Route description
+  
+  // Extended static route options
+  StaticRouteType route_type = 8;
+  StaticRouteFlags flags = 9;
+  uint32 mtu = 10;               // Path MTU
+  uint32 window = 11;            // TCP window size
+  uint32 irtt = 12;              // Initial RTT
+  string source = 13;            // Source IP for policy routing
+  uint32 realm = 14;             // Routing realm
+  repeated string nexthop_group = 15; // Nexthop group reference
+  
+  // VRF support
+  string vrf = 16;               // VRF name
+  bool onlink = 17;              // Gateway is directly reachable
+  
+  // IPv6 specific
+  bool ipv6 = 18;               // IPv6 route flag
+}
+
+enum StaticRouteType {
+  STATIC_ROUTE_UNKNOWN = 0;
+  STATIC_ROUTE_UNICAST = 1;     // Normal unicast route
+  STATIC_ROUTE_BLACKHOLE = 2;   // Blackhole route
+  STATIC_ROUTE_UNREACHABLE = 3; // Unreachable route
+  STATIC_ROUTE_PROHIBIT = 4;    // Prohibited route
+  STATIC_ROUTE_LOCAL = 5;       // Local route
+  STATIC_ROUTE_BROADCAST = 6;   // Broadcast route
+  STATIC_ROUTE_ANYCAST = 7;     // Anycast route
+  STATIC_ROUTE_MULTICAST = 8;   // Multicast route
+}
+
+// Static Route Flags
+message StaticRouteFlags {
+  bool reject = 1;              // Reject route
+  bool blackhole = 2;           // Blackhole route
+  bool no_resolve = 3;          // Don't resolve gateway
+  bool onlink = 4;              // Gateway is on-link
+  bool pervasive = 5;           // Pervasive route
+  bool offload = 6;             // Offload to hardware
+  bool trap = 7;                // Trap to CPU
+}
+
+// Static Route Table
+message StaticRouteTable {
+  uint32 table_id = 1;          // Route table ID
+  string table_name = 2;        // Route table name
+  string description = 3;       // Table description
+  repeated StaticRoute routes = 4; // Routes in this table
+}
+
+// Static Nexthop Group (ECMP)
+message StaticNexthopGroup {
+  string name = 1;              // Nexthop group name
+  repeated StaticNexthop nexthops = 2; // Group members
+  StaticNexthopGroupType type = 3;
+  string description = 4;
+}
+
+enum StaticNexthopGroupType {
+  NEXTHOP_GROUP_UNKNOWN = 0;
+  NEXTHOP_GROUP_MULTIPATH = 1;   // ECMP group
+  NEXTHOP_GROUP_RESILIENT = 2;   // Resilient hashing
+}
+
+// Static Nexthop
+message StaticNexthop {
+  string gateway = 1;           // Next-hop IP
+  string interface = 2;         // Outgoing interface
+  uint32 weight = 3;            // Nexthop weight for ECMP
+  uint32 preference = 4;        // Nexthop preference
+  bool backup = 5;              // Backup nexthop flag
+}
+
+// Static Route Statistics
 message StaticStatistics {
   uint32 total_routes = 1;
   uint32 ipv4_routes = 2;
   uint32 ipv6_routes = 3;
-  uint32 blackhole_routes = 4;
-  uint32 reject_routes = 5;
-  uint32 active_routes = 6;
-  uint32 inactive_routes = 7;
-  repeated StaticRouteStatus route_status = 8;
+  uint32 active_routes = 4;
+  uint32 inactive_routes = 5;
+  
+  // Per-table statistics
+  repeated StaticTableStatistics table_stats = 6;
+  
+  // Route type statistics
+  StaticRouteTypeStatistics route_type_stats = 7;
+  
+  // Nexthop group statistics
+  StaticNexthopGroupStatistics nexthop_group_stats = 8;
 }
 
-message StaticRouteStatus {
-  string destination = 1;
-  string gateway = 2;
-  bool active = 3;
-  string status = 4;           // "installed", "pending", "failed"
-  string last_update = 5;
-  string interface = 6;
+// Static Table Statistics
+message StaticTableStatistics {
+  uint32 table_id = 1;
+  string table_name = 2;
+  uint32 route_count = 3;
+  uint32 active_routes = 4;
+  uint32 inactive_routes = 5;
+}
+
+// Static Route Type Statistics
+message StaticRouteTypeStatistics {
+  uint32 unicast_routes = 1;
+  uint32 blackhole_routes = 2;
+  uint32 unreachable_routes = 3;
+  uint32 prohibit_routes = 4;
+  uint32 local_routes = 5;
+}
+
+// Static Nexthop Group Statistics
+message StaticNexthopGroupStatistics {
+  uint32 total_groups = 1;
+  uint32 multipath_groups = 2;
+  uint32 resilient_groups = 3;
+  uint32 total_nexthops = 4;
+  uint32 active_nexthops = 5;
+}
+
+// =================== FRR REQUEST/RESPONSE MESSAGES ===================
+
+// BGP Request
+message RequestBgp {
+  BgpOperationType operation = 1;
+  BgpConfig config = 2;
+  BgpNeighbor neighbor = 3;
+  BgpNetwork network = 4;
+  BgpRouteMap route_map = 5;      // New
+  BgpCommunityList community_list = 6; // New
+  BgpPrefixList prefix_list = 7;  // New
+  string filter_name = 8;         // For filtering operations
+}
+
+// BGP Response
+message ResponseBgp {
+  BgpOperationType operation = 1;
+  bool success = 2;
+  string message = 3;
+  BgpConfig config = 4;
+  repeated BgpNeighbor neighbors = 5;
+  repeated BgpNetwork networks = 6;
+  BgpState state = 7;
+  BgpStatistics statistics = 8;
+  
+  // Extended response fields
+  repeated BgpRouteMap route_maps = 9;
+  repeated BgpCommunityList community_lists = 10;
+  repeated BgpPrefixList prefix_lists = 11;
+  BgpSummary summary = 12;        // New summary information
+}
+
+// BGP Summary Information
+message BgpSummary {
+  uint32 local_as = 1;
+  string router_id = 2;
+  uint32 total_peers = 3;
+  uint32 established_peers = 4;
+  uint32 total_prefixes = 5;
+  uint64 table_version = 6;
+  repeated BgpPeerSummary peer_summary = 7;
+}
+
+// BGP Peer Summary
+message BgpPeerSummary {
+  string peer_ip = 1;
+  uint32 remote_as = 2;
+  string state = 3;
+  uint64 uptime = 4;
+  uint32 prefixes_received = 5;
+  uint32 prefixes_sent = 6;
+  string state_pfx_rcd = 7;       // State/PfxRcd format
+}
+
+// Static Routing Request
+message RequestStatic {
+  StaticOperationType operation = 1;
+  StaticConfig config = 2;
+  StaticRoute route = 3;
+  StaticRouteTable route_table = 4;
+  StaticNexthopGroup nexthop_group = 5;
+  uint32 table_id = 6;            // For table-specific operations
+  string filter_criteria = 7;     // For filtering operations
+}
+
+// Static Routing Response
+message ResponseStatic {
+  StaticOperationType operation = 1;
+  bool success = 2;
+  string message = 3;
+  StaticConfig config = 4;
+  repeated StaticRoute routes = 5;
+  repeated StaticRouteTable route_tables = 6;
+  repeated StaticNexthopGroup nexthop_groups = 7;
+  StaticStatistics statistics = 8;
+}
+
+// =================== VALIDATION MESSAGES ===================
+
+// Configuration validation messages
+message FrrConfigValidation {
+  bool is_valid = 1;
+  repeated string errors = 2;
+  repeated string warnings = 3;
+  repeated string suggestions = 4;
+}
+
+// BGP Configuration validation
+message BgpConfigValidation {
+  bool is_valid = 1;
+  repeated string neighbor_errors = 2;
+  repeated string network_errors = 3;
+  repeated string route_map_errors = 4;
+  repeated string policy_errors = 5;
+}
+
+// Static Route validation
+message StaticRouteValidation {
+  bool is_valid = 1;
+  repeated string route_errors = 2;
+  repeated string nexthop_errors = 3;
+  repeated string table_errors = 4;
 } 

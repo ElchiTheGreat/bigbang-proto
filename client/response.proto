@@ -75,6 +75,7 @@ message ResponseClientStats {
 }
 
 message ResponseNetwork { repeated Interfaces interfaces = 1; }
+
 message ResponseFrr {
   FrrProtocolType protocol = 1;
   bool success = 2;

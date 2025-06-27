@@ -352,22 +352,48 @@ message BgpStatistics {
   uint32 established_neighbors = 2;
   uint32 total_routes = 3;
   uint32 ipv4_routes = 4;
-  uint64 memory_usage = 5;
-  repeated BgpNeighborStatistics neighbor_stats = 6;
+  uint32 ipv6_routes = 5;
+  uint64 memory_usage = 6;
+  BgpGlobalStatistics global_stats = 7;
+  repeated BgpTableStatistics table_stats = 8;
+  BgpMessageStatistics message_stats = 9;
 }
 
-message BgpNeighborStatistics {
-  string peer_ip = 1;
-  uint64 messages_sent = 2;
-  uint64 messages_received = 3;
-  uint64 updates_sent = 4;
-  uint64 updates_received = 5;
-  uint64 keepalives_sent = 6;
-  uint64 keepalives_received = 7;
-  uint64 notifications_sent = 8;
-  uint64 notifications_received = 9;
-  uint64 route_refreshes_sent = 10;
-  uint64 route_refreshes_received = 11;
+message BgpGlobalStatistics {
+  uint64 updates_sent = 1;
+  uint64 updates_received = 2;
+  uint64 total_messages_sent = 3;
+  uint64 total_messages_received = 4;
+  uint64 dampened_routes = 5;
+  uint64 history_routes = 6;
+  uint64 suppressed_routes = 7;
+  uint64 withdraw_messages = 8;
+}
+
+message BgpTableStatistics {
+  string table_name = 1;
+  uint32 total_prefixes = 2;
+  uint32 memory_usage = 3;
+  uint32 dampened_prefixes = 4;
+  uint32 history_prefixes = 5;
+  uint32 valid_prefixes = 6;
+}
+
+message BgpMessageStatistics {
+  uint64 opens_sent = 1;
+  uint64 opens_received = 2;
+  uint64 notifications_sent = 3;
+  uint64 notifications_received = 4;
+  uint64 updates_sent = 5;
+  uint64 updates_received = 6;
+  uint64 keepalives_sent = 7;
+  uint64 keepalives_received = 8;
+  uint64 route_refresh_sent = 9;
+  uint64 route_refresh_received = 10;
+  uint64 capability_sent = 11;
+  uint64 capability_received = 12;
+  uint64 total_sent = 13;
+  uint64 total_received = 14;
 }
 
 // =================== STATIC ROUTING CONFIGURATION ===================
@@ -584,4 +610,73 @@ message ResponseStatic {
   
   // VTYSH JSON response
   ShowStaticRoutes show_routes = 9;
+}
+
+// BGP Comprehensive Status Message
+message BgpStatus {
+  uint32 as_number = 1;
+  bool enabled = 2;
+  bool daemon_running = 3;
+  bool config_valid = 4;
+  map<string, int64> cache_statistics = 5;
+  map<string, int64> network_metrics = 6;
+  BgpPerformanceMetrics performance_metrics = 7;
+  BgpHealthStatus health_status = 8;
+  uint64 timestamp = 9;
+  string status_message = 10;
+}
+
+// BGP Performance Metrics
+message BgpPerformanceMetrics {
+  map<string, double> cache_hit_ratios = 1;
+  uint64 estimated_cache_memory_kb = 2;
+  uint32 go_routines = 3;
+  uint64 memory_alloc_mb = 4;
+  uint64 total_alloc_mb = 5;
+  uint64 sys_mb = 6;
+  uint32 num_gc = 7;
+  bool optimization_recommended = 8;
+}
+
+// BGP Health Status
+message BgpHealthStatus {
+  bool healthy = 1;
+  bool daemon_running = 2;
+  bool config_valid = 3;
+  uint32 neighbors_connected = 4;
+  uint32 total_neighbors = 5;
+  repeated string issues = 6;
+  double connection_ratio = 7;
+}
+
+// BGP Cache Management
+message BgpCacheInfo {
+  bool cache_valid = 1;
+  uint32 cache_size = 2;
+  uint32 cache_hits = 3;
+  uint32 total_requests = 4;
+  uint64 last_updated = 5;
+  uint32 ttl_seconds = 6;
+}
+
+// BGP Summary (Enhanced)
+message BgpSummary {
+  uint32 local_as = 1;
+  string router_id = 2;
+  uint32 total_peers = 3;
+  uint32 established_peers = 4;
+  uint32 total_prefixes = 5;
+  uint64 table_version = 6;
+  repeated BgpPeerSummary peer_summary = 7;
+}
+
+// BGP Peer Summary
+message BgpPeerSummary {
+  string peer_ip = 1;
+  uint32 remote_as = 2;
+  string state = 3;
+  uint64 uptime = 4;
+  uint32 prefixes_received = 5;
+  uint32 prefixes_sent = 6;
+  string state_pfx_rcd = 7;
 } 

@@ -565,7 +565,6 @@ func (x *RequestNetwork) GetInterfaces() []*Interfaces {
 	return nil
 }
 
-// Main FRR Request
 type RequestFrr struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

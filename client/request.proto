@@ -58,11 +58,11 @@ message RequestClientStats {}
 
 message RequestNetwork { repeated Interfaces interfaces = 1; }
 
-// Main FRR Request
 message RequestFrr {
   FrrProtocolType protocol = 1;
   RequestBgp bgp = 2;
   RequestStatic static = 3;
 }
+
 
 

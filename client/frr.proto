@@ -137,7 +137,7 @@ message BgpConfig {
   repeated BgpCommunityList community_lists = 10;
   repeated BgpPrefixList prefix_lists = 11;
   uint32 maximum_paths = 12;
-  uint32 administrative_distance = 13;
+  string administrative_distance = 13;
   bool deterministic_med = 14;
   bool always_compare_med = 15;
   bool log_neighbor_changes = 16;

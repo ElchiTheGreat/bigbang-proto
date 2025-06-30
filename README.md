@@ -9,19 +9,19 @@ This repository contains Protocol Buffers (protobuf) definitions for client-serv
 You can add this repository as a Go module to your projects:
 
 ```bash
-go get github.com/yourusername/elchi-proto
+go get github.com/ElchiTheGreat/elchi-proto
 ```
 
 Then import it in your code:
 
 ```go
-import "github.com/yourusername/elchi-proto"
+import "github.com/ElchiTheGreat/elchi-proto"
 ```
 
 ### As a Git Submodule
 
 ```bash
-git submodule add https://github.com/yourusername/elchi-proto.git proto
+git submodule add https://github.com/ElchiTheGreat/elchi-proto.git proto
 git submodule update --init --recursive
 ```
 

@@ -381,6 +381,7 @@ message BgpIpv4UnicastInfo {
   string inbound_ebgp_requires_policy = 2;
   string outbound_ebgp_requires_policy = 3;
   uint32 accepted_prefix_counter = 4;
+  bool router_allways_next_hop = 5;
 }
 
 // Response for "show bgp ipv4 unicast json"

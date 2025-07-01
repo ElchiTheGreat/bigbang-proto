@@ -81,16 +81,6 @@ enum BgpOperationType {
   BGP_GET_ROUTES_RECEIVED_COUNT = 47; // GetRoutesReceivedCount()
 
   // ============================================================================
-  // BGP TRANSACTION OPERATIONS (TransactionManager Functions)
-  // ============================================================================
-  BGP_BEGIN_TRANSACTION = 48;        // BeginTransaction()
-  BGP_COMMIT_TRANSACTION = 49;       // CommitTransaction()
-  BGP_ROLLBACK_TRANSACTION = 50;     // RollbackTransaction()
-  BGP_ADD_TRANSACTION_OPERATION = 51; // AddOperation()
-  BGP_EXECUTE_TRANSACTION = 52;      // ExecuteTransaction()
-  BGP_GET_TRANSACTION_STATUS = 53;   // GetTransactionStatus()
-
-  // ============================================================================
   // BGP ADVANCED VALIDATION OPERATIONS (ValidationManager Functions)
   // ============================================================================
   BGP_VALIDATE_CONFIG_CONSISTENCY = 54;      // ValidateConfigConsistency()
@@ -98,16 +88,6 @@ enum BgpOperationType {
   BGP_VALIDATE_AS_NUMBERS = 56;              // ValidateASNumbers()
   BGP_VALIDATE_IP_ADDRESSES = 57;            // ValidateIPAddresses()
   BGP_CHECK_RESERVED_AS = 58;                // isReservedAS()
-
-  // ============================================================================
-  // BGP CACHE & PERFORMANCE OPERATIONS (Manager Functions)
-  // ============================================================================
-  BGP_GET_CACHE_STATS = 59;          // GetBgpCacheStats()
-  BGP_GET_CACHE_HIT_RATIO = 60;      // GetCacheHitRatio()
-  BGP_PERIODIC_CACHE_CLEANUP = 61;   // PeriodicCacheCleanup()
-  BGP_HANDLE_CACHE_STATS = 62;       // HandleCacheStats()
-  BGP_HANDLE_CACHE_CLEAR = 63;       // HandleCacheClear()
-  BGP_HANDLE_PERFORMANCE_METRICS = 64; // HandlePerformanceMetrics()
 
   // ============================================================================
   // BGP STATE MANAGEMENT OPERATIONS (StateManager Functions)
@@ -166,6 +146,7 @@ message BgpNeighbor {
   bool ebgp_multihop = 19;
   uint32 ebgp_multihop_ttl = 20;
   bool disable_connected_check = 21;
+  bool activate = 22;
 }
 
 // BGP Neighbor Timers

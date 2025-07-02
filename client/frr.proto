@@ -185,6 +185,7 @@ message BgpCommunityList {
   uint32 sequence = 2;
   BgpRouteMapAction action = 3; // permit/deny
   string community_values = 4;  // Space-separated community values
+  string type = 5;
 }
 
 // BGP Prefix List

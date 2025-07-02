@@ -136,14 +136,14 @@ message BgpNeighborTimers {
 
 // BGP Neighbor Route Maps
 message BgpNeighborRouteMaps {
-  string route_map_in = 1;
-  string route_map_out = 2;
+  repeated string route_map_in = 1;
+  repeated string route_map_out = 2;
 }
 
 // BGP Neighbor Prefix Lists
 message BgpNeighborPrefixLists {
-  string prefix_list_in = 1;
-  string prefix_list_out = 2;
+  repeated string prefix_list_in = 1;
+  repeated string prefix_list_out = 2;
 }
 
 // BGP Route Map Configuration

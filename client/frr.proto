@@ -101,6 +101,8 @@ enum BgpOperationType {
   BGP_UPDATE_NETWORK = 67;           // UpdateNetwork()
   BGP_GET_NETWORK_COUNT = 68;        // GetNetworkCount()
   BGP_GET_REDISTRIBUTION_STATUS = 69; // GetRedistributionStatus()
+  BGP_GET_NETWORK_LIST = 70;
+  BGP_GET_NETWORK = 71;
 }
 
 // Simplified BGP Configuration (IPv4 only)

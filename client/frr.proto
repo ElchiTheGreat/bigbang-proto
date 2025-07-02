@@ -110,7 +110,6 @@ message BgpConfig {
   uint32 autonomous_system = 1;
   string router_id = 2;
   repeated BgpNeighbor neighbors = 3;
-  repeated BgpNetwork networks = 4;
   uint32 keepalive_time = 5;
   uint32 hold_time = 6;
   bool redistribute_connected = 7;
@@ -167,13 +166,6 @@ message BgpNeighborRouteMaps {
 message BgpNeighborPrefixLists {
   string prefix_list_in = 1;
   string prefix_list_out = 2;
-}
-
-// BGP Network Configuration (IPv4 only)
-message BgpNetwork {
-  string network = 1;  // CIDR format
-  string route_map = 2;
-  bool backdoor = 3;
 }
 
 // BGP Route Map Configuration
@@ -639,7 +631,6 @@ message RequestBgp {
   BgpOperationType operation = 1;
   BgpConfig config = 2;
   BgpNeighbor neighbor = 3;
-  BgpNetwork network = 4;
   string peer_ip = 5;
   string network_prefix = 6;
   BgpRouteMap route_map = 7;
@@ -678,7 +669,6 @@ message ResponseBgp {
   string message = 3;
   BgpConfig config = 4;
   repeated BgpNeighbor neighbors = 5;
-  repeated BgpNetwork networks = 6;
   BgpState state = 7;
   BgpStatistics statistics = 8;
   repeated BgpRouteMap route_maps = 9;
@@ -836,7 +826,6 @@ message BgpTransactionOperation {
   string operation_type = 1;           // Type of operation to add to transaction
   BgpConfig config = 2;               // Configuration for the operation
   BgpNeighbor neighbor = 3;           // Neighbor for the operation
-  BgpNetwork network = 4;             // Network for the operation
   BgpRouteMap route_map = 5;          // Route map for the operation
   BgpCommunityList community_list = 6; // Community list for the operation
   BgpPrefixList prefix_list = 7;      // Prefix list for the operation
@@ -868,7 +857,6 @@ message BgpValidationRequest {
   string validation_type = 1;         // Type of validation to perform
   BgpConfig config = 2;              // Configuration to validate
   BgpNeighbor neighbor = 3;          // Neighbor to validate
-  BgpNetwork network = 4;            // Network to validate
   BgpRouteMap route_map = 5;         // Route map to validate
   BgpCommunityList community_list = 6; // Community list to validate
   BgpPrefixList prefix_list = 7;     // Prefix list to validate
@@ -939,7 +927,6 @@ message BgpRedistributionMetrics {
 // BGP Network Update Request
 message BgpNetworkUpdate {
   string current_network = 1;        // Current network CIDR
-  BgpNetwork new_network = 2;        // New network configuration
   bool force_update = 3;             // Force update even if same
 }
 

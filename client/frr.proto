@@ -46,9 +46,6 @@ enum BgpOperationType {
   BGP_CLEAR_CACHE = 26;          // clear BGP caches
   BGP_OPTIMIZE_CACHE = 27;       // optimize BGP caches
 
-  // ============================================================================
-  // ADVANCED BGP POLICY OPERATIONS (PolicyManager Functions)
-  // ============================================================================
   BGP_APPLY_COMMUNITY_LIST = 28;     // ApplyCommunityList()
   BGP_REMOVE_COMMUNITY_LIST = 29;    // RemoveCommunityList()
   BGP_APPLY_PREFIX_LIST = 30;        // ApplyPrefixList()
@@ -56,19 +53,12 @@ enum BgpOperationType {
   BGP_VALIDATE_ROUTE_MAP = 32;       // ValidateRouteMap()
   BGP_VALIDATE_COMMUNITY_LIST = 33;  // ValidateCommunityList()
   BGP_VALIDATE_PREFIX_LIST = 34;     // ValidatePrefixList()
-  BGP_GET_POLICY_CONFIG = 35;        // Get all route maps, community lists, prefix lists
 
-  // ============================================================================
-  // ADVANCED BGP NEIGHBOR OPERATIONS (NeighborManager Functions)
-  // ============================================================================
   BGP_GET_NEIGHBOR = 36;             // GetNeighbor() - get specific neighbor details
   BGP_LIST_NEIGHBORS = 37;           // ListNeighbors() - list all neighbors for AS
   BGP_CHECK_NEIGHBOR_STATUS = 38;    // IsNeighborConfigured() - check if neighbor is configured
   BGP_GET_NEIGHBOR_STATE = 39;       // GetNeighborState() - get neighbor state info
 
-  // ============================================================================
-  // BGP HEALTH & MONITORING OPERATIONS (StateManager Functions)
-  // ============================================================================
   BGP_GET_HEALTH_STATUS = 40;        // CheckBgpHealth()
   BGP_GET_PROTOCOL_STATUS = 41;      // GetProtocolStatus()
   BGP_GET_NEIGHBOR_STATISTICS = 42;  // GetNeighborStatistics()
@@ -78,25 +68,19 @@ enum BgpOperationType {
   BGP_GET_NEIGHBOR_UPTIME = 46;      // GetNeighborUptime()
   BGP_GET_ROUTES_RECEIVED_COUNT = 47; // GetRoutesReceivedCount()
 
-  // ============================================================================
-  // BGP ADVANCED VALIDATION OPERATIONS (ValidationManager Functions)
-  // ============================================================================
   BGP_VALIDATE_CONFIG_CONSISTENCY = 54;      // ValidateConfigConsistency()
   BGP_VALIDATE_NEIGHBOR_COMPATIBILITY = 55;  // ValidateNeighborCompatibility()
   BGP_VALIDATE_AS_NUMBERS = 56;              // ValidateASNumbers()
   BGP_VALIDATE_IP_ADDRESSES = 57;            // ValidateIPAddresses()
   BGP_CHECK_RESERVED_AS = 58;                // isReservedAS()
 
-  // ============================================================================
-  // BGP STATE MANAGEMENT OPERATIONS (StateManager Functions)
-  // ============================================================================
   BGP_RESET_BGP_SESSION = 65;        // ResetBgpSession()
   BGP_SOFT_RESET_BGP_SESSION = 66;   // SoftResetBgpSession()
 
-  // ============================================================================
-  // BGP NETWORK OPERATIONS (NetworkManager Functions)
-  // ============================================================================
   BGP_GET_REDISTRIBUTION_STATUS = 69; // GetRedistributionStatus()
+
+  BGP_LIST_PREFIX_LIST = 70;
+  BGP_GET_PREFIX_LIST = 71;
 }
 
 // Simplified BGP Configuration (IPv4 only)
@@ -632,24 +616,15 @@ message RequestBgp {
   BgpPrefixList prefix_list = 9;
   string community = 10;
   uint32 as_number = 11;          // AS number for status and cache operations
-  
-  // ============================================================================
-  // TRANSACTION SUPPORT FIELDS
-  // ============================================================================
+
   string transaction_id = 12;     // Transaction ID for transaction operations
   BgpTransactionOperation transaction_operation = 13; // Transaction operation details
   
-  // ============================================================================
-  // VALIDATION SUPPORT FIELDS  
-  // ============================================================================
   BgpValidationRequest validation_request = 14; // Validation request details
   repeated string ip_addresses = 15;        // IP addresses for validation
   uint32 local_as = 16;                     // Local AS for AS validation
   uint32 remote_as = 17;                    // Remote AS for AS validation
-  
-  // ============================================================================
-  // ADVANCED QUERY FIELDS
-  // ============================================================================
+
   string soft_reset_direction = 18;         // "in", "out", or "both" for soft reset
   string session_type = 19;                 // Session type for operations
   bool include_inactive = 20;               // Include inactive neighbors/routes
@@ -677,41 +652,26 @@ message ResponseBgp {
   // Comprehensive status and performance info
   BgpStatus status = 15;
   
-  // ============================================================================
-  // ADVANCED BGP RESPONSE FIELDS
-  // ============================================================================
   BgpNeighbor neighbor = 16;                    // Single neighbor response
   repeated BgpNeighborStatistics neighbor_statistics = 17; // Neighbor statistics
   BgpHealthStatus health_status = 18;           // Health status response
   BgpProtocolStatus protocol_status = 19;       // Protocol status response
   BgpPerformanceMetrics performance_metrics = 20; // Performance metrics
   
-  // ============================================================================
-  // TRANSACTION RESPONSE FIELDS
-  // ============================================================================
   BgpTransactionResponse transaction_response = 21; // Transaction operation response
   string transaction_id = 22;                   // Transaction ID
   BgpTransactionStatus transaction_status = 23; // Transaction status
   
-  // ============================================================================
-  // VALIDATION RESPONSE FIELDS
-  // ============================================================================
   BgpValidationResponse validation_response = 24; // Validation results
   repeated string validation_errors = 25;      // Validation error messages
   repeated string validation_warnings = 26;    // Validation warning messages
   
-  // ============================================================================
-  // CACHE & PERFORMANCE RESPONSE FIELDS
-  // ============================================================================
   map<string, int64> cache_statistics = 27;    // Cache statistics
   map<string, double> cache_hit_ratios = 28;   // Cache hit ratios
   uint64 neighbor_uptime = 29;                 // Neighbor uptime in seconds
   uint32 routes_received_count = 30;           // Routes received count
   bool is_neighbor_established = 31;           // Neighbor establishment status
   
-  // ============================================================================
-  // NETWORK METRICS RESPONSE FIELDS
-  // ============================================================================
   uint32 network_count = 32;                   // Network count
   BgpRedistributionStatus redistribution_status = 33; // Redistribution status
 }
@@ -777,38 +737,6 @@ message BgpHealthStatus {
   uint32 total_neighbors = 5;
   repeated string issues = 6;
   double connection_ratio = 7;
-}
-
-// BGP Cache Management
-message BgpCacheInfo {
-  bool cache_valid = 1;
-  uint32 cache_size = 2;
-  uint32 cache_hits = 3;
-  uint32 total_requests = 4;
-  uint64 last_updated = 5;
-  uint32 ttl_seconds = 6;
-}
-
-// BGP Summary (Enhanced)
-message BgpSummary {
-  uint32 local_as = 1;
-  string router_id = 2;
-  uint32 total_peers = 3;
-  uint32 established_peers = 4;
-  uint32 total_prefixes = 5;
-  uint64 table_version = 6;
-  repeated BgpPeerSummary peer_summary = 7;
-}
-
-// BGP Peer Summary
-message BgpPeerSummary {
-  string peer_ip = 1;
-  uint32 remote_as = 2;
-  string state = 3;
-  uint64 uptime = 4;
-  uint32 prefixes_received = 5;
-  uint32 prefixes_sent = 6;
-  string state_pfx_rcd = 7;
 }
 
 // ============================================================================
@@ -918,53 +846,3 @@ message BgpRedistributionMetrics {
   bool enabled = 5;
 }
 
-// BGP Network Update Request
-message BgpNetworkUpdate {
-  string current_network = 1;        // Current network CIDR
-  bool force_update = 3;             // Force update even if same
-}
-
-// BGP Configuration Consistency Check
-message BgpConfigConsistency {
-  bool router_id_consistent = 1;
-  bool as_number_consistent = 2;
-  bool timers_consistent = 3;
-  bool neighbors_reachable = 4;
-  bool networks_valid = 5;
-  repeated string consistency_issues = 6;
-  repeated string recommendations = 7;
-}
-
-// BGP Neighbor Compatibility Check
-message BgpNeighborCompatibility {
-  string peer_ip = 1;
-  bool as_compatible = 2;
-  bool address_family_compatible = 3;
-  bool capabilities_compatible = 4;
-  bool timers_compatible = 5;
-  repeated string compatibility_issues = 6;
-  repeated string compatibility_warnings = 7;
-}
-
-// BGP AS Numbers Validation
-message BgpASNumbersValidation {
-  uint32 local_as = 1;
-  uint32 remote_as = 2;
-  bool local_as_valid = 3;
-  bool remote_as_valid = 4;
-  bool local_as_reserved = 5;
-  bool remote_as_reserved = 6;
-  bool as_path_valid = 7;
-  repeated string validation_messages = 8;
-}
-
-// BGP Policy Configuration Response
-message BgpPolicyConfig {
-  repeated BgpRouteMap route_maps = 1;
-  repeated BgpCommunityList community_lists = 2;
-  repeated BgpPrefixList prefix_lists = 3;
-  uint32 total_route_maps = 4;
-  uint32 total_community_lists = 5;
-  uint32 total_prefix_lists = 6;
-  map<string, string> policy_statistics = 7;
-} 

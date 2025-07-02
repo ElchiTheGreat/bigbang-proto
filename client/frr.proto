@@ -33,23 +33,26 @@ enum BgpOperationType {
   BGP_CLEAR_ROUTES = 13;
   BGP_ENABLE = 14;
   BGP_DISABLE = 15;
-  BGP_APPLY_ROUTE_MAP = 16;
-  BGP_REMOVE_ROUTE_MAP = 17;
-  BGP_SET_COMMUNITY = 18;
-  BGP_CLEAR_COMMUNITY = 19;
-  BGP_GET_SUMMARY = 20; // show bgp summary json
-  BGP_CLEAR_SESSION = 21;
-  BGP_RESET = 22;
-  BGP_SHOW_NEIGHBORS = 23; // show bgp ipv4 neighbors json
-  BGP_SHOW_ROUTES = 24;    // show bgp ipv4 unicast json
-  BGP_GET_STATUS = 25;     // comprehensive status with cache/performance info
-  BGP_CLEAR_CACHE = 26;    // clear BGP caches
-  BGP_OPTIMIZE_CACHE = 27; // optimize BGP caches
 
+  BGP_SET_COMMUNITY = 16;
+  BGP_CLEAR_COMMUNITY = 17;
+  BGP_GET_SUMMARY = 18; // show bgp summary json
+  BGP_CLEAR_SESSION = 19;
+  BGP_RESET = 20;
+  BGP_SHOW_NEIGHBORS = 21; // show bgp ipv4 neighbors json
+  BGP_SHOW_ROUTES = 22;    // show bgp ipv4 unicast json
+  BGP_GET_STATUS = 23;     // comprehensive status with cache/performance info
+  BGP_CLEAR_CACHE = 24;    // clear BGP caches
+  BGP_OPTIMIZE_CACHE = 25; // optimize BGP caches
+
+  BGP_APPLY_ROUTE_MAP = 26;
+  BGP_REMOVE_ROUTE_MAP = 27;
   BGP_APPLY_COMMUNITY_LIST = 28;    // ApplyCommunityList()
   BGP_REMOVE_COMMUNITY_LIST = 29;   // RemoveCommunityList()
   BGP_APPLY_PREFIX_LIST = 30;       // ApplyPrefixList()
   BGP_REMOVE_PREFIX_LIST = 31;      // RemovePrefixList()
+
+
   BGP_VALIDATE_ROUTE_MAP = 32;      // ValidateRouteMap()
   BGP_VALIDATE_COMMUNITY_LIST = 33; // ValidateCommunityList()
   BGP_VALIDATE_PREFIX_LIST = 34;    // ValidatePrefixList()

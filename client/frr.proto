@@ -170,7 +170,7 @@ message BgpRouteMapMatch {
 
 // BGP Route Map Set Actions
 message BgpRouteMapSet {
-  string set_local_preference = 1;
+  uint32 set_local_preference = 1;
   uint32 set_metric = 2;
   string set_community = 3;
   string set_nexthop = 4;

@@ -5,7 +5,7 @@ package client;
 option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 
 // ============================================================================
-// FRR Main Request & Response Messages  
+// FRR Main Request & Response Messages
 // ============================================================================
 
 enum FrrProtocolType {
@@ -37,45 +37,46 @@ enum BgpOperationType {
   BGP_REMOVE_ROUTE_MAP = 17;
   BGP_SET_COMMUNITY = 18;
   BGP_CLEAR_COMMUNITY = 19;
-  BGP_GET_SUMMARY = 20;          // show bgp summary json
+  BGP_GET_SUMMARY = 20; // show bgp summary json
   BGP_CLEAR_SESSION = 21;
   BGP_RESET = 22;
-  BGP_SHOW_NEIGHBORS = 23;       // show bgp ipv4 neighbors json
-  BGP_SHOW_ROUTES = 24;          // show bgp ipv4 unicast json
-  BGP_GET_STATUS = 25;           // comprehensive status with cache/performance info
-  BGP_CLEAR_CACHE = 26;          // clear BGP caches
-  BGP_OPTIMIZE_CACHE = 27;       // optimize BGP caches
+  BGP_SHOW_NEIGHBORS = 23; // show bgp ipv4 neighbors json
+  BGP_SHOW_ROUTES = 24;    // show bgp ipv4 unicast json
+  BGP_GET_STATUS = 25;     // comprehensive status with cache/performance info
+  BGP_CLEAR_CACHE = 26;    // clear BGP caches
+  BGP_OPTIMIZE_CACHE = 27; // optimize BGP caches
 
-  BGP_APPLY_COMMUNITY_LIST = 28;     // ApplyCommunityList()
-  BGP_REMOVE_COMMUNITY_LIST = 29;    // RemoveCommunityList()
-  BGP_APPLY_PREFIX_LIST = 30;        // ApplyPrefixList()
-  BGP_REMOVE_PREFIX_LIST = 31;       // RemovePrefixList()
-  BGP_VALIDATE_ROUTE_MAP = 32;       // ValidateRouteMap()
-  BGP_VALIDATE_COMMUNITY_LIST = 33;  // ValidateCommunityList()
-  BGP_VALIDATE_PREFIX_LIST = 34;     // ValidatePrefixList()
+  BGP_APPLY_COMMUNITY_LIST = 28;    // ApplyCommunityList()
+  BGP_REMOVE_COMMUNITY_LIST = 29;   // RemoveCommunityList()
+  BGP_APPLY_PREFIX_LIST = 30;       // ApplyPrefixList()
+  BGP_REMOVE_PREFIX_LIST = 31;      // RemovePrefixList()
+  BGP_VALIDATE_ROUTE_MAP = 32;      // ValidateRouteMap()
+  BGP_VALIDATE_COMMUNITY_LIST = 33; // ValidateCommunityList()
+  BGP_VALIDATE_PREFIX_LIST = 34;    // ValidatePrefixList()
 
-  BGP_GET_NEIGHBOR = 36;             // GetNeighbor() - get specific neighbor details
-  BGP_LIST_NEIGHBORS = 37;           // ListNeighbors() - list all neighbors for AS
-  BGP_CHECK_NEIGHBOR_STATUS = 38;    // IsNeighborConfigured() - check if neighbor is configured
-  BGP_GET_NEIGHBOR_STATE = 39;       // GetNeighborState() - get neighbor state info
+  BGP_GET_NEIGHBOR = 36;   // GetNeighbor() - get specific neighbor details
+  BGP_LIST_NEIGHBORS = 37; // ListNeighbors() - list all neighbors for AS
+  BGP_CHECK_NEIGHBOR_STATUS =
+      38; // IsNeighborConfigured() - check if neighbor is configured
+  BGP_GET_NEIGHBOR_STATE = 39; // GetNeighborState() - get neighbor state info
 
-  BGP_GET_HEALTH_STATUS = 40;        // CheckBgpHealth()
-  BGP_GET_PROTOCOL_STATUS = 41;      // GetProtocolStatus()
-  BGP_GET_NEIGHBOR_STATISTICS = 42;  // GetNeighborStatistics()
-  BGP_GET_PERFORMANCE_METRICS = 43;  // GetBgpPerformanceMetrics()
-  BGP_VALIDATE_STATE_DATA = 44;      // ValidateStateData()
-  BGP_IS_NEIGHBOR_ESTABLISHED = 45;  // IsNeighborEstablished()
-  BGP_GET_NEIGHBOR_UPTIME = 46;      // GetNeighborUptime()
+  BGP_GET_HEALTH_STATUS = 40;         // CheckBgpHealth()
+  BGP_GET_PROTOCOL_STATUS = 41;       // GetProtocolStatus()
+  BGP_GET_NEIGHBOR_STATISTICS = 42;   // GetNeighborStatistics()
+  BGP_GET_PERFORMANCE_METRICS = 43;   // GetBgpPerformanceMetrics()
+  BGP_VALIDATE_STATE_DATA = 44;       // ValidateStateData()
+  BGP_IS_NEIGHBOR_ESTABLISHED = 45;   // IsNeighborEstablished()
+  BGP_GET_NEIGHBOR_UPTIME = 46;       // GetNeighborUptime()
   BGP_GET_ROUTES_RECEIVED_COUNT = 47; // GetRoutesReceivedCount()
 
-  BGP_VALIDATE_CONFIG_CONSISTENCY = 54;      // ValidateConfigConsistency()
-  BGP_VALIDATE_NEIGHBOR_COMPATIBILITY = 55;  // ValidateNeighborCompatibility()
-  BGP_VALIDATE_AS_NUMBERS = 56;              // ValidateASNumbers()
-  BGP_VALIDATE_IP_ADDRESSES = 57;            // ValidateIPAddresses()
-  BGP_CHECK_RESERVED_AS = 58;                // isReservedAS()
+  BGP_VALIDATE_CONFIG_CONSISTENCY = 54;     // ValidateConfigConsistency()
+  BGP_VALIDATE_NEIGHBOR_COMPATIBILITY = 55; // ValidateNeighborCompatibility()
+  BGP_VALIDATE_AS_NUMBERS = 56;             // ValidateASNumbers()
+  BGP_VALIDATE_IP_ADDRESSES = 57;           // ValidateIPAddresses()
+  BGP_CHECK_RESERVED_AS = 58;               // isReservedAS()
 
-  BGP_RESET_BGP_SESSION = 65;        // ResetBgpSession()
-  BGP_SOFT_RESET_BGP_SESSION = 66;   // SoftResetBgpSession()
+  BGP_RESET_BGP_SESSION = 65;      // ResetBgpSession()
+  BGP_SOFT_RESET_BGP_SESSION = 66; // SoftResetBgpSession()
 
   BGP_GET_REDISTRIBUTION_STATUS = 69; // GetRedistributionStatus()
 
@@ -163,34 +164,34 @@ enum BgpRouteMapAction {
 
 // BGP Route Map Match Conditions
 message BgpRouteMapMatch {
-  string match_type = 1;    // "as-path", "community", "prefix-list", etc.
+  string match_type = 1;
   string match_value = 2;
-  bool exact_match = 3;
 }
 
 // BGP Route Map Set Actions
 message BgpRouteMapSet {
-  string set_type = 1;      // "local-preference", "metric", "community", etc.
-  string set_value = 2;
-  bool additive = 3;        // For community, as-path-prepend
+  string set_local_preference = 1;
+  uint32 set_metric = 2;
+  string set_community = 3;
+  string set_nexthop = 4;
 }
 
 // BGP Community List
 message BgpCommunityList {
   string name = 1;
   uint32 sequence = 2;
-  BgpRouteMapAction action = 3;  // permit/deny
-  string community_values = 4;   // Space-separated community values
+  BgpRouteMapAction action = 3; // permit/deny
+  string community_values = 4;  // Space-separated community values
 }
 
 // BGP Prefix List
 message BgpPrefixList {
   string name = 1;
   uint32 sequence = 2;
-  BgpRouteMapAction action = 3;  // permit/deny
+  BgpRouteMapAction action = 3; // permit/deny
   string prefix = 4;
-  uint32 le = 5;  // less-equal prefix length
-  uint32 ge = 6;  // greater-equal prefix length
+  uint32 le = 5; // less-equal prefix length
+  uint32 ge = 6; // greater-equal prefix length
 }
 
 // ============================================================================
@@ -198,9 +199,7 @@ message BgpPrefixList {
 // ============================================================================
 
 // Response for "show bgp summary json"
-message ShowBgpSummary {
-  map<string, BgpSummaryInstance> instances = 1;
-}
+message ShowBgpSummary { map<string, BgpSummaryInstance> instances = 1; }
 
 message BgpSummaryInstance {
   uint32 router_id = 1;
@@ -224,9 +223,7 @@ message BgpPeerSummaryInfo {
 }
 
 // Response for "show bgp ipv4 neighbors json"
-message ShowBgpNeighbors {
-  map<string, BgpNeighborInfo> neighbors = 1;
-}
+message ShowBgpNeighbors { map<string, BgpNeighborInfo> neighbors = 1; }
 
 message BgpNeighborInfo {
   uint32 remote_as = 1;
@@ -323,9 +320,7 @@ message BgpPrefixStats {
   uint32 attributes_discarded = 7;
 }
 
-message BgpAddressFamilyInfo {
-  BgpIpv4UnicastInfo ipv4_unicast = 1;
-}
+message BgpAddressFamilyInfo { BgpIpv4UnicastInfo ipv4_unicast = 1; }
 
 message BgpIpv4UnicastInfo {
   string comm_attri_sent_to_nbr = 1;
@@ -336,13 +331,9 @@ message BgpIpv4UnicastInfo {
 }
 
 // Response for "show bgp ipv4 unicast json"
-message ShowBgpRoutes {
-  map<string, BgpRouteInfo> routes = 1;
-}
+message ShowBgpRoutes { map<string, BgpRouteInfo> routes = 1; }
 
-message BgpRouteInfo {
-  repeated BgpPath paths = 1;
-}
+message BgpRouteInfo { repeated BgpPath paths = 1; }
 
 message BgpPath {
   bool valid = 1;
@@ -457,7 +448,7 @@ enum StaticOperationType {
   STATIC_SET_CONFIG = 6;
   STATIC_CLEAR_ALL_ROUTES = 7;
   STATIC_GET_STATISTICS = 8;
-  STATIC_SHOW_ROUTES = 9;          // show ip route json
+  STATIC_SHOW_ROUTES = 9; // show ip route json
 }
 
 // Static Route Configuration (IPv4 only)
@@ -477,19 +468,19 @@ message StaticGlobalConfig {
 
 // Static Route (IPv4 only)
 message StaticRoute {
-  string destination = 1;        // Network in CIDR format
-  string gateway = 2;            // Next-hop IP or interface
-  string interface = 3;          // Outgoing interface
-  uint32 metric = 4;             // Route metric
+  string destination = 1;             // Network in CIDR format
+  string gateway = 2;                 // Next-hop IP or interface
+  string interface = 3;               // Outgoing interface
+  uint32 metric = 4;                  // Route metric
   uint32 administrative_distance = 5; // Administrative distance
-  uint32 table = 6;              // Route table ID
-  string description = 7;        // Route description
+  uint32 table = 6;                   // Route table ID
+  string description = 7;             // Route description
   StaticRouteType route_type = 8;
   StaticRouteFlags flags = 9;
-  string source = 10;            // Source IP for policy routing
+  string source = 10;                 // Source IP for policy routing
   repeated string nexthop_group = 11; // Nexthop group reference
-  string vrf = 12;               // VRF name
-  bool onlink = 13;              // Gateway is directly reachable
+  string vrf = 12;                    // VRF name
+  bool onlink = 13;                   // Gateway is directly reachable
 }
 
 enum StaticRouteType {
@@ -545,9 +536,7 @@ message StaticNexthop {
 // ============================================================================
 
 // Response for "show ip route json"
-message ShowStaticRoutes {
-  map<string, StaticRouteEntry> routes = 1;
-}
+message ShowStaticRoutes { map<string, StaticRouteEntry> routes = 1; }
 
 message StaticRouteEntry {
   string prefix = 1;
@@ -614,20 +603,21 @@ message RequestBgp {
   BgpCommunityList community_list = 8;
   BgpPrefixList prefix_list = 9;
   string community = 10;
-  uint32 as_number = 11;          // AS number for status and cache operations
+  uint32 as_number = 11; // AS number for status and cache operations
 
-  string transaction_id = 12;     // Transaction ID for transaction operations
-  BgpTransactionOperation transaction_operation = 13; // Transaction operation details
-  
+  string transaction_id = 12; // Transaction ID for transaction operations
+  BgpTransactionOperation transaction_operation =
+      13; // Transaction operation details
+
   BgpValidationRequest validation_request = 14; // Validation request details
-  repeated string ip_addresses = 15;        // IP addresses for validation
-  uint32 local_as = 16;                     // Local AS for AS validation
-  uint32 remote_as = 17;                    // Remote AS for AS validation
+  repeated string ip_addresses = 15;            // IP addresses for validation
+  uint32 local_as = 16;                         // Local AS for AS validation
+  uint32 remote_as = 17;                        // Remote AS for AS validation
 
-  string soft_reset_direction = 18;         // "in", "out", or "both" for soft reset
-  string session_type = 19;                 // Session type for operations
-  bool include_inactive = 20;               // Include inactive neighbors/routes
-  string filter_criteria = 21;              // Filter criteria for queries
+  string soft_reset_direction = 18; // "in", "out", or "both" for soft reset
+  string session_type = 19;         // Session type for operations
+  bool include_inactive = 20;       // Include inactive neighbors/routes
+  string filter_criteria = 21;      // Filter criteria for queries
 }
 
 // BGP Response
@@ -642,36 +632,38 @@ message ResponseBgp {
   repeated BgpRouteMap route_maps = 9;
   repeated BgpCommunityList community_lists = 10;
   repeated BgpPrefixList prefix_lists = 11;
-  
+
   // VTYSH JSON responses
   ShowBgpSummary show_summary = 12;
   ShowBgpNeighbors show_neighbors = 13;
   ShowBgpRoutes show_routes = 14;
-  
+
   // Comprehensive status and performance info
   BgpStatus status = 15;
-  
-  BgpNeighbor neighbor = 16;                    // Single neighbor response
-  repeated BgpNeighborStatistics neighbor_statistics = 17; // Neighbor statistics
-  BgpHealthStatus health_status = 18;           // Health status response
-  BgpProtocolStatus protocol_status = 19;       // Protocol status response
+
+  BgpNeighbor neighbor = 16; // Single neighbor response
+  repeated BgpNeighborStatistics neighbor_statistics =
+      17;                                         // Neighbor statistics
+  BgpHealthStatus health_status = 18;             // Health status response
+  BgpProtocolStatus protocol_status = 19;         // Protocol status response
   BgpPerformanceMetrics performance_metrics = 20; // Performance metrics
-  
-  BgpTransactionResponse transaction_response = 21; // Transaction operation response
-  string transaction_id = 22;                   // Transaction ID
+
+  BgpTransactionResponse transaction_response =
+      21;                     // Transaction operation response
+  string transaction_id = 22; // Transaction ID
   BgpTransactionStatus transaction_status = 23; // Transaction status
-  
+
   BgpValidationResponse validation_response = 24; // Validation results
-  repeated string validation_errors = 25;      // Validation error messages
-  repeated string validation_warnings = 26;    // Validation warning messages
-  
-  map<string, int64> cache_statistics = 27;    // Cache statistics
-  map<string, double> cache_hit_ratios = 28;   // Cache hit ratios
-  uint64 neighbor_uptime = 29;                 // Neighbor uptime in seconds
-  uint32 routes_received_count = 30;           // Routes received count
-  bool is_neighbor_established = 31;           // Neighbor establishment status
-  
-  uint32 network_count = 32;                   // Network count
+  repeated string validation_errors = 25;         // Validation error messages
+  repeated string validation_warnings = 26;       // Validation warning messages
+
+  map<string, int64> cache_statistics = 27;  // Cache statistics
+  map<string, double> cache_hit_ratios = 28; // Cache hit ratios
+  uint64 neighbor_uptime = 29;               // Neighbor uptime in seconds
+  uint32 routes_received_count = 30;         // Routes received count
+  bool is_neighbor_established = 31;         // Neighbor establishment status
+
+  uint32 network_count = 32;                          // Network count
   BgpRedistributionStatus redistribution_status = 33; // Redistribution status
 
   BgpPolicyConfig policy_config = 34;
@@ -683,7 +675,7 @@ message BgpPolicyConfig {
   repeated BgpCommunityList community_lists = 2;
   repeated BgpPrefixList prefix_lists = 3;
   map<string, string> policy_statistics = 4;
-} 
+}
 
 // Static Routing Request
 message RequestStatic {
@@ -706,7 +698,7 @@ message ResponseStatic {
   repeated StaticRouteTable route_tables = 6;
   repeated StaticNexthopGroup nexthop_groups = 7;
   StaticStatistics statistics = 8;
-  
+
   // VTYSH JSON response
   ShowStaticRoutes show_routes = 9;
 }
@@ -754,13 +746,13 @@ message BgpHealthStatus {
 
 // BGP Transaction Operation
 message BgpTransactionOperation {
-  string operation_type = 1;           // Type of operation to add to transaction
-  BgpConfig config = 2;               // Configuration for the operation
-  BgpNeighbor neighbor = 3;           // Neighbor for the operation
-  BgpRouteMap route_map = 5;          // Route map for the operation
+  string operation_type = 1; // Type of operation to add to transaction
+  BgpConfig config = 2;      // Configuration for the operation
+  BgpNeighbor neighbor = 3;  // Neighbor for the operation
+  BgpRouteMap route_map = 5; // Route map for the operation
   BgpCommunityList community_list = 6; // Community list for the operation
-  BgpPrefixList prefix_list = 7;      // Prefix list for the operation
-  string description = 8;             // Description of the operation
+  BgpPrefixList prefix_list = 7;       // Prefix list for the operation
+  string description = 8;              // Description of the operation
 }
 
 // BGP Transaction Response
@@ -785,13 +777,13 @@ enum BgpTransactionStatus {
 
 // BGP Validation Request
 message BgpValidationRequest {
-  string validation_type = 1;         // Type of validation to perform
-  BgpConfig config = 2;              // Configuration to validate
-  BgpNeighbor neighbor = 3;          // Neighbor to validate
-  BgpRouteMap route_map = 5;         // Route map to validate
+  string validation_type = 1;          // Type of validation to perform
+  BgpConfig config = 2;                // Configuration to validate
+  BgpNeighbor neighbor = 3;            // Neighbor to validate
+  BgpRouteMap route_map = 5;           // Route map to validate
   BgpCommunityList community_list = 6; // Community list to validate
-  BgpPrefixList prefix_list = 7;     // Prefix list to validate
-  bool strict_validation = 8;        // Whether to perform strict validation
+  BgpPrefixList prefix_list = 7;       // Prefix list to validate
+  bool strict_validation = 8;          // Whether to perform strict validation
 }
 
 // BGP Validation Response
@@ -812,7 +804,7 @@ message BgpValidationError {
   string error_message = 2;
   string field_name = 3;
   string field_value = 4;
-  string severity = 5;              // "critical", "high", "medium", "low"
+  string severity = 5; // "critical", "high", "medium", "low"
 }
 
 // BGP Validation Warning
@@ -854,4 +846,3 @@ message BgpRedistributionMetrics {
   string route_map = 4;
   bool enabled = 5;
 }
-

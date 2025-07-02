@@ -79,8 +79,7 @@ enum BgpOperationType {
 
   BGP_GET_REDISTRIBUTION_STATUS = 69; // GetRedistributionStatus()
 
-  BGP_LIST_PREFIX_LIST = 70;
-  BGP_GET_PREFIX_LIST = 71;
+  BGP_GET_POLICY_CONFIG = 70; // GetPolicyConfig()
 }
 
 // Simplified BGP Configuration (IPv4 only)
@@ -674,7 +673,17 @@ message ResponseBgp {
   
   uint32 network_count = 32;                   // Network count
   BgpRedistributionStatus redistribution_status = 33; // Redistribution status
+
+  BgpPolicyConfig policy_config = 34;
 }
+
+// BGP Policy Configuration Response
+message BgpPolicyConfig {
+  repeated BgpRouteMap route_maps = 1;
+  repeated BgpCommunityList community_lists = 2;
+  repeated BgpPrefixList prefix_lists = 3;
+  map<string, string> policy_statistics = 4;
+} 
 
 // Static Routing Request
 message RequestStatic {

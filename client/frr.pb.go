@@ -1100,7 +1100,7 @@ type BgpRouteMap struct {
 	Sequence        uint32              `protobuf:"varint,2,opt,name=sequence,proto3" json:"sequence,omitempty"`
 	Action          BgpRouteMapAction   `protobuf:"varint,3,opt,name=action,proto3,enum=client.BgpRouteMapAction" json:"action,omitempty"`
 	MatchConditions []*BgpRouteMapMatch `protobuf:"bytes,4,rep,name=match_conditions,json=matchConditions,proto3" json:"match_conditions,omitempty"`
-	SetActions      []*BgpRouteMapSet   `protobuf:"bytes,5,rep,name=set_actions,json=setActions,proto3" json:"set_actions,omitempty"`
+	SetActions      *BgpRouteMapSet     `protobuf:"bytes,5,opt,name=set_actions,json=setActions,proto3" json:"set_actions,omitempty"`
 	Description     string              `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 }
 
@@ -1162,7 +1162,7 @@ func (x *BgpRouteMap) GetMatchConditions() []*BgpRouteMapMatch {
 	return nil
 }
 
-func (x *BgpRouteMap) GetSetActions() []*BgpRouteMapSet {
+func (x *BgpRouteMap) GetSetActions() *BgpRouteMapSet {
 	if x != nil {
 		return x.SetActions
 	}
@@ -4742,7 +4742,7 @@ type RequestBgp struct {
 	CommunityList        *BgpCommunityList        `protobuf:"bytes,8,opt,name=community_list,json=communityList,proto3" json:"community_list,omitempty"`
 	PrefixList           *BgpPrefixList           `protobuf:"bytes,9,opt,name=prefix_list,json=prefixList,proto3" json:"prefix_list,omitempty"`
 	Community            string                   `protobuf:"bytes,10,opt,name=community,proto3" json:"community,omitempty"`
-	AsNumber             uint32                   `protobuf:"varint,11,opt,name=as_number,json=asNumber,proto3" json:"as_number,omitempty"`                                    // AS number for status and cache operations
+	AsNumber             uint32                   `protobuf:"varint,11,opt,name=as_number,json=asNumber,proto3" json:"as_number,omitempty"`
 	TransactionId        string                   `protobuf:"bytes,12,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`                      // Transaction ID for transaction operations
 	TransactionOperation *BgpTransactionOperation `protobuf:"bytes,13,opt,name=transaction_operation,json=transactionOperation,proto3" json:"transaction_operation,omitempty"` // Transaction operation details
 	ValidationRequest    *BgpValidationRequest    `protobuf:"bytes,14,opt,name=validation_request,json=validationRequest,proto3" json:"validation_request,omitempty"`          // Validation request details
@@ -6753,7 +6753,7 @@ var file_client_frr_proto_rawDesc = []byte{
 	0x74, 0x2e, 0x42, 0x67, 0x70, 0x52, 0x6f, 0x75, 0x74, 0x65, 0x4d, 0x61, 0x70, 0x4d, 0x61, 0x74,
 	0x63, 0x68, 0x52, 0x0f, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x43, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69,
 	0x6f, 0x6e, 0x73, 0x12, 0x37, 0x0a, 0x0b, 0x73, 0x65, 0x74, 0x5f, 0x61, 0x63, 0x74, 0x69, 0x6f,
-	0x6e, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x63, 0x6c, 0x69, 0x65, 0x6e,
+	0x6e, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x63, 0x6c, 0x69, 0x65, 0x6e,
 	0x74, 0x2e, 0x42, 0x67, 0x70, 0x52, 0x6f, 0x75, 0x74, 0x65, 0x4d, 0x61, 0x70, 0x53, 0x65, 0x74,
 	0x52, 0x0a, 0x73, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x20, 0x0a, 0x0b,
 	0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x06, 0x20, 0x01, 0x28,

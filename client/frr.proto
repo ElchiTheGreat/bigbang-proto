@@ -155,7 +155,7 @@ message BgpRouteMap {
   uint32 sequence = 2;
   BgpRouteMapAction action = 3;
   repeated BgpRouteMapMatch match_conditions = 4;
-  repeated BgpRouteMapSet set_actions = 5;
+  BgpRouteMapSet set_actions = 5;
   string description = 6;
 }
 
@@ -606,7 +606,7 @@ message RequestBgp {
   BgpCommunityList community_list = 8;
   BgpPrefixList prefix_list = 9;
   string community = 10;
-  uint32 as_number = 11; // AS number for status and cache operations
+  uint32 as_number = 11;
 
   string transaction_id = 12; // Transaction ID for transaction operations
   BgpTransactionOperation transaction_operation =

@@ -47,11 +47,10 @@ enum BgpOperationType {
 
   BGP_APPLY_ROUTE_MAP = 26;
   BGP_REMOVE_ROUTE_MAP = 27;
-  BGP_APPLY_COMMUNITY_LIST = 28;    // ApplyCommunityList()
-  BGP_REMOVE_COMMUNITY_LIST = 29;   // RemoveCommunityList()
-  BGP_APPLY_PREFIX_LIST = 30;       // ApplyPrefixList()
-  BGP_REMOVE_PREFIX_LIST = 31;      // RemovePrefixList()
-
+  BGP_APPLY_COMMUNITY_LIST = 28;  // ApplyCommunityList()
+  BGP_REMOVE_COMMUNITY_LIST = 29; // RemoveCommunityList()
+  BGP_APPLY_PREFIX_LIST = 30;     // ApplyPrefixList()
+  BGP_REMOVE_PREFIX_LIST = 31;    // RemovePrefixList()
 
   BGP_VALIDATE_ROUTE_MAP = 32;      // ValidateRouteMap()
   BGP_VALIDATE_COMMUNITY_LIST = 33; // ValidateCommunityList()
@@ -671,6 +670,73 @@ message ResponseBgp {
   BgpRedistributionStatus redistribution_status = 33; // Redistribution status
 
   BgpPolicyConfig policy_config = 34;
+  Routes routes = 35;
+}
+
+message Routes {
+  ReceivedRoutes received = 1;
+  repeated AdvertisedRoutes advertised = 2;
+}
+
+// ---- RECEIVED ----
+
+message ReceivedRoutes {
+  uint32 total_routes = 1;
+  uint32 total_paths = 2;
+  string router_id = 3;
+  map<string, RouteEntry> routes = 4; // key = "10.10.20.50/32"
+}
+
+message RouteEntry { repeated Path paths = 1; }
+
+message Path {
+  bool valid = 1;
+  bool bestpath = 2;
+  string selection_reason = 3;
+  string path_from = 4;
+  string prefix = 5;
+  uint32 prefix_len = 6;
+  string network = 7;
+  uint32 version = 8;
+  uint32 metric = 9;
+  uint32 weight = 10;
+  string peer_id = 11;
+  string path = 12;
+  string origin = 13;
+  repeated Nexthop nexthops = 14;
+}
+
+message Nexthop {
+  string ip = 1;
+  string hostname = 2;
+  string afi = 3;
+  bool used = 4;
+}
+
+// ---- ADVERTISED ----
+
+message AdvertisedRoutes {
+  string neighbor_ip = 1;
+  string router_id = 2;
+  uint32 bgp_table_version = 3;
+  uint32 local_as = 4;
+  uint32 default_local_pref = 5;
+  uint32 total_prefix_count = 6;
+  uint32 filtered_prefix_count = 7;
+  map<string, AdvertisedRouteEntry> advertised = 8;
+}
+
+message AdvertisedRouteEntry {
+  string addr_prefix = 1;
+  uint32 prefix_len = 2;
+  string network = 3;
+  string next_hop = 4;
+  uint32 metric = 5;
+  uint32 weight = 6;
+  string path = 7;
+  string origin = 8;
+  bool valid = 9;
+  bool best = 10;
 }
 
 // BGP Policy Configuration Response

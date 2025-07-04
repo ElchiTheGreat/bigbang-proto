@@ -27,6 +27,7 @@ enum BgpOperationType {
   BGP_REMOVE_ROUTE_MAP = 14;
   BGP_SHOW_ROUTES = 15;
   BGP_GET_SUMMARY = 16;
+  BGP_CLEAR_ROUTES = 17;
 }
 
 message RequestBgp {
@@ -43,18 +44,10 @@ message RequestBgp {
   ClearBgp clear = 11;
 }
 
-message ResponseBgp {
-  BgpOperationType operation = 1;
-  bool success = 2;
-  string message = 3;
-  BgpConfig config = 4;
-  Ipv4UnicastSummary summary = 5;
-  ShowBgpNeighbors show_neighbors = 6;
-  BgpNeighbor neighbor = 7;
-  BgpPolicyConfig policy_config = 8;
-  Routes routes = 9;
-  repeated string validation_errors = 10;
-  repeated string validation_warnings = 11;
+message ClearBgp {
+  bool soft = 1;
+  string direction = 2;
+  string neighbor = 3;
 }
 
 message BgpConfig {
@@ -76,6 +69,21 @@ message BgpConfig {
   bool always_compare_med = 17;
   bool log_neighbor_changes = 18;
 }
+
+message ResponseBgp {
+  BgpOperationType operation = 1;
+  bool success = 2;
+  string message = 3;
+  BgpConfig config = 4;
+  Ipv4UnicastSummary summary = 5;
+  ShowBgpNeighbors show_neighbors = 6;
+  BgpNeighbor neighbor = 7;
+  BgpPolicyConfig policy_config = 8;
+  Routes routes = 9;
+  repeated string validation_errors = 10;
+  repeated string validation_warnings = 11;
+}
+
 
 message Ipv4UnicastSummary {
   string routerId = 1;
@@ -121,12 +129,6 @@ message PeerSummary {
 }
 
 message BestPathOptions { bool multiPathRelax = 1; }
-
-message ClearBgp {
-  bool soft = 1;
-  string direction = 2;
-  string neighbor = 3;
-}
 
 message BgpNeighbor {
   string peer_ip = 1;

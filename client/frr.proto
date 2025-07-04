@@ -117,14 +117,13 @@ message BgpNeighbor {
   bool soft_reconfiguration = 9;
   bool shutdown = 10;
   string update_source = 11;
-  bool send_community = 12;
-  uint32 maximum_prefix = 13;
-  uint32 maximum_prefix_out = 14;
-  uint32 allowas_in = 15;
-  uint32 weight = 16;
-  bool ebgp_multihop = 17;
-  uint32 ebgp_multihop_ttl = 18;
-  bool disable_connected_check = 19;
+  uint32 maximum_prefix = 12;
+  uint32 maximum_prefix_out = 13;
+  uint32 allowas_in = 14;
+  uint32 weight = 15;
+  bool ebgp_multihop = 16;
+  uint32 ebgp_multihop_ttl = 17;
+  bool disable_connected_check = 18;
 }
 
 // BGP Neighbor Timers

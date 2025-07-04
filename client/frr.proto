@@ -605,20 +605,13 @@ message RequestBgp {
   BgpPrefixList prefix_list = 9;
   string community = 10;
   uint32 as_number = 11;
-
-  string transaction_id = 12; // Transaction ID for transaction operations
-  BgpTransactionOperation transaction_operation =
-      13; // Transaction operation details
-
-  BgpValidationRequest validation_request = 14; // Validation request details
-  repeated string ip_addresses = 15;            // IP addresses for validation
-  uint32 local_as = 16;                         // Local AS for AS validation
-  uint32 remote_as = 17;                        // Remote AS for AS validation
-
-  string soft_reset_direction = 18; // "in", "out", or "both" for soft reset
-  string session_type = 19;         // Session type for operations
-  bool include_inactive = 20;       // Include inactive neighbors/routes
-  string filter_criteria = 21;      // Filter criteria for queries
+  repeated string ip_addresses = 12;
+  uint32 local_as = 13;
+  uint32 remote_as = 14;
+  string soft_reset_direction = 15;
+  string session_type = 16;
+  bool include_inactive = 17;
+  string filter_criteria = 18;
 }
 
 // BGP Response
@@ -636,11 +629,8 @@ message ResponseBgp {
   BgpNeighbor neighbor = 11;
   BgpPolicyConfig policy_config = 12;
   Routes routes = 13;
-
-
-  repeated string validation_errors = 14;         // Validation error messages
-  repeated string validation_warnings = 15;       // Validation warning messages
-
+  repeated string validation_errors = 14;
+  repeated string validation_warnings = 15;
 }
 
 message Routes {
@@ -780,109 +770,3 @@ message BgpHealthStatus {
   double connection_ratio = 7;
 }
 
-// ============================================================================
-// ADVANCED BGP MESSAGE TYPES FOR NEW OPERATIONS
-// ============================================================================
-
-// BGP Transaction Operation
-message BgpTransactionOperation {
-  string operation_type = 1; // Type of operation to add to transaction
-  BgpConfig config = 2;      // Configuration for the operation
-  BgpNeighbor neighbor = 3;  // Neighbor for the operation
-  BgpRouteMap route_map = 5; // Route map for the operation
-  BgpCommunityList community_list = 6; // Community list for the operation
-  BgpPrefixList prefix_list = 7;       // Prefix list for the operation
-  string description = 8;              // Description of the operation
-}
-
-// BGP Transaction Response
-message BgpTransactionResponse {
-  string transaction_id = 1;
-  bool success = 2;
-  string message = 3;
-  repeated string operation_results = 4;
-  uint32 operations_count = 5;
-  uint64 execution_time_ms = 6;
-}
-
-// BGP Transaction Status
-enum BgpTransactionStatus {
-  TRANSACTION_UNKNOWN = 0;
-  TRANSACTION_PENDING = 1;
-  TRANSACTION_IN_PROGRESS = 2;
-  TRANSACTION_COMMITTED = 3;
-  TRANSACTION_ROLLED_BACK = 4;
-  TRANSACTION_FAILED = 5;
-}
-
-// BGP Validation Request
-message BgpValidationRequest {
-  string validation_type = 1;          // Type of validation to perform
-  BgpConfig config = 2;                // Configuration to validate
-  BgpNeighbor neighbor = 3;            // Neighbor to validate
-  BgpRouteMap route_map = 5;           // Route map to validate
-  BgpCommunityList community_list = 6; // Community list to validate
-  BgpPrefixList prefix_list = 7;       // Prefix list to validate
-  bool strict_validation = 8;          // Whether to perform strict validation
-}
-
-// BGP Validation Response
-message BgpValidationResponse {
-  bool valid = 1;
-  string validation_type = 2;
-  repeated BgpValidationError errors = 3;
-  repeated BgpValidationWarning warnings = 4;
-  map<string, string> validation_details = 5;
-  uint32 total_checks = 6;
-  uint32 passed_checks = 7;
-  uint32 failed_checks = 8;
-}
-
-// BGP Validation Error
-message BgpValidationError {
-  string error_code = 1;
-  string error_message = 2;
-  string field_name = 3;
-  string field_value = 4;
-  string severity = 5; // "critical", "high", "medium", "low"
-}
-
-// BGP Validation Warning
-message BgpValidationWarning {
-  string warning_code = 1;
-  string warning_message = 2;
-  string field_name = 3;
-  string field_value = 4;
-  string recommendation = 5;
-}
-
-// BGP Protocol Status
-message BgpProtocolStatus {
-  bool daemon_running = 1;
-  bool configuration_valid = 2;
-  string daemon_version = 3;
-  uint64 daemon_uptime = 4;
-  uint32 memory_usage_kb = 5;
-  uint32 cpu_usage_percent = 6;
-  repeated string active_features = 7;
-  map<string, string> daemon_statistics = 8;
-}
-
-// BGP Redistribution Status
-message BgpRedistributionStatus {
-  bool connected_enabled = 1;
-  bool static_enabled = 2;
-  bool ospf_enabled = 3;
-  bool rip_enabled = 4;
-  bool kernel_enabled = 5;
-  map<string, BgpRedistributionMetrics> redistribution_metrics = 6;
-}
-
-// BGP Redistribution Metrics
-message BgpRedistributionMetrics {
-  string protocol = 1;
-  uint32 routes_redistributed = 2;
-  uint32 routes_filtered = 3;
-  string route_map = 4;
-  bool enabled = 5;
-}

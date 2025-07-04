@@ -94,14 +94,16 @@ message BgpConfig {
   uint32 hold_time = 6;
   bool redistribute_connected = 7;
   bool redistribute_static = 8;
-  repeated BgpRouteMap route_maps = 9;
-  repeated BgpCommunityList community_lists = 10;
-  repeated BgpPrefixList prefix_lists = 11;
-  uint32 maximum_paths = 12;
-  string administrative_distance = 13;
-  bool deterministic_med = 14;
-  bool always_compare_med = 15;
-  bool log_neighbor_changes = 16;
+  bool redistribute_kernel = 9;
+  bool redistribute_local = 10;
+  repeated BgpRouteMap route_maps = 11;
+  repeated BgpCommunityList community_lists = 12;
+  repeated BgpPrefixList prefix_lists = 13;
+  uint32 maximum_paths = 14;
+  string administrative_distance = 15;
+  bool deterministic_med = 16;
+  bool always_compare_med = 17;
+  bool log_neighbor_changes = 18;
 }
 
 // Simplified BGP Neighbor Configuration (IPv4 only)

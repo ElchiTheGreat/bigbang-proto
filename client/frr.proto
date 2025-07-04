@@ -48,6 +48,7 @@ message ResponseBgp {
   bool success = 2;
   string message = 3;
   BgpConfig config = 4;
+  Ipv4UnicastSummary summary = 5;
   ShowBgpNeighbors show_neighbors = 6;
   BgpNeighbor neighbor = 7;
   BgpPolicyConfig policy_config = 8;
@@ -75,6 +76,51 @@ message BgpConfig {
   bool always_compare_med = 17;
   bool log_neighbor_changes = 18;
 }
+
+message Ipv4UnicastSummary {
+  string routerId = 1;
+  uint32 asNumber = 2;
+  uint32 vrfId = 3;
+  string vrfName = 4;
+  uint64 tableVersion = 5;
+  uint64 ribCount = 6;
+  uint64 ribMemory = 7;
+  uint32 peerCount = 8;
+  uint64 peerMemory = 9;
+  uint32 peerGroupCount = 10;
+  uint64 peerGroupMemory = 11;
+  map<string, PeerSummary> peers = 12;
+  uint32 failedPeers = 13;
+  uint32 displayedPeers = 14;
+  uint32 totalPeers = 15;
+  uint32 dynamicPeers = 16;
+  BestPathOptions bestPath = 17;
+}
+
+message PeerSummary {
+  string softwareVersion = 1;
+  uint32 remoteAs = 2;
+  uint32 localAs = 3;
+  uint32 version = 4;
+  uint64 msgRcvd = 5;
+  uint64 msgSent = 6;
+  uint64 tableVersion = 7;
+  uint32 outq = 8;
+  uint32 inq = 9;
+  string peerUptime = 10;
+  uint64 peerUptimeMsec = 11;
+  uint64 peerUptimeEstablishedEpoch = 12;
+  uint32 pfxRcd = 13;
+  uint32 pfxSnt = 14;
+  string state = 15;
+  string peerState = 16;
+  uint32 connectionsEstablished = 17;
+  uint32 connectionsDropped = 18;
+  string desc = 19;
+  string idType = 20;
+}
+
+message BestPathOptions { bool multiPathRelax = 1; }
 
 message ClearBgp {
   bool soft = 1;
@@ -156,8 +202,8 @@ message BgpRouteMapSet {
 message BgpCommunityList {
   string name = 1;
   uint32 sequence = 2;
-  BgpRouteMapAction action = 3; // permit/deny
-  string community_values = 4;  // Space-separated community values
+  BgpRouteMapAction action = 3;
+  string community_values = 4;
   string type = 5;
 }
 
@@ -165,10 +211,10 @@ message BgpCommunityList {
 message BgpPrefixList {
   string name = 1;
   uint32 sequence = 2;
-  BgpRouteMapAction action = 3; // permit/deny
+  BgpRouteMapAction action = 3;
   string prefix = 4;
-  uint32 le = 5; // less-equal prefix length
-  uint32 ge = 6; // greater-equal prefix length
+  uint32 le = 5;
+  uint32 ge = 6;
 }
 
 message ShowBgpSummary { map<string, BgpSummaryInstance> instances = 1; }
@@ -194,7 +240,6 @@ message BgpPeerSummaryInfo {
   string state_pfx_rcd = 7;
 }
 
-// Response for "show bgp ipv4 neighbors json"
 message ShowBgpNeighbors { map<string, BgpNeighborInfo> neighbors = 1; }
 
 message BgpNeighborInfo {
@@ -311,7 +356,7 @@ message ReceivedRoutes {
   uint32 total_routes = 1;
   uint32 total_paths = 2;
   string router_id = 3;
-  map<string, RouteEntry> routes = 4; // key = "10.10.20.50/32"
+  map<string, RouteEntry> routes = 4;
 }
 
 message RouteEntry { repeated Path paths = 1; }

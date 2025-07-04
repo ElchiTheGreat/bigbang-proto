@@ -114,19 +114,17 @@ message BgpNeighbor {
   BgpNeighborRouteMaps route_maps = 6;
   BgpNeighborPrefixLists prefix_lists = 7;
   bool next_hop_self = 8;
-  bool route_reflector_client = 9;
-  bool send_community = 10;
-  bool soft_reconfiguration_inbound = 11;
-  bool shutdown = 12;
-  string update_source = 13;
-  uint32 local_as = 14;
-  bool local_as_no_prepend = 15;
-  bool local_as_replace_as = 16;
-  uint32 allowas_in = 17;
-  uint32 weight = 18;
-  bool ebgp_multihop = 19;
-  uint32 ebgp_multihop_ttl = 20;
-  bool disable_connected_check = 21;
+  bool soft_reconfiguration = 9;
+  bool shutdown = 10;
+  string update_source = 11;
+  bool send_community = 12;
+  uint32 maximum_prefix = 13;
+  uint32 maximum_prefix_out = 14;
+  uint32 allowas_in = 15;
+  uint32 weight = 16;
+  bool ebgp_multihop = 17;
+  uint32 ebgp_multihop_ttl = 18;
+  bool disable_connected_check = 19;
 }
 
 // BGP Neighbor Timers

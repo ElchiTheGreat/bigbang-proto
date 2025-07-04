@@ -636,6 +636,11 @@ message ResponseBgp {
   BgpNeighbor neighbor = 11;
   BgpPolicyConfig policy_config = 12;
   Routes routes = 13;
+
+
+  repeated string validation_errors = 14;         // Validation error messages
+  repeated string validation_warnings = 15;       // Validation warning messages
+
 }
 
 message Routes {

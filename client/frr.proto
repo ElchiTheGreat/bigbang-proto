@@ -48,14 +48,13 @@ message ResponseBgp {
   bool success = 2;
   string message = 3;
   BgpConfig config = 4;
-  repeated BgpNeighbor neighbors = 5;
   BgpState state = 6;
-  ShowBgpNeighbors show_neighbors = 10;
-  BgpNeighbor neighbor = 11;
-  BgpPolicyConfig policy_config = 12;
-  Routes routes = 13;
-  repeated string validation_errors = 14;
-  repeated string validation_warnings = 15;
+  ShowBgpNeighbors show_neighbors = 7;
+  BgpNeighbor neighbor = 8;
+  BgpPolicyConfig policy_config = 9;
+  Routes routes = 10;
+  repeated string validation_errors = 11;
+  repeated string validation_warnings = 12;
 }
 
 message BgpConfig {

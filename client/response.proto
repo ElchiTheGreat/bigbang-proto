@@ -81,5 +81,4 @@ message ResponseFrr {
   bool success = 2;
   string message = 3;
   ResponseBgp bgp = 4;
-  ResponseStatic static = 5;
 }

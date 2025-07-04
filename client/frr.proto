@@ -4,87 +4,63 @@ package client;
 
 option go_package = "github.com/ElchiTheGreat/elchi-proto/client";
 
-// ============================================================================
-// FRR Main Request & Response Messages
-// ============================================================================
-
 enum FrrProtocolType {
   FRR_PROTOCOL_UNKNOWN = 0;
   FRR_PROTOCOL_BGP = 1;
-  FRR_PROTOCOL_STATIC = 2;
 }
-
-// ============================================================================
-// BGP Messages
-// ============================================================================
 
 enum BgpOperationType {
   BGP_UNKNOWN = 0;
   BGP_GET_CONFIG = 1;
   BGP_SET_CONFIG = 2;
-  BGP_GET_STATE = 3;
-  BGP_ADD_NEIGHBOR = 4;
-  BGP_REMOVE_NEIGHBOR = 5;
-  BGP_UPDATE_NEIGHBOR = 6;
-  BGP_RESET_NEIGHBOR = 7;
-  BGP_GET_NEIGHBORS = 8;
-  BGP_GET_ROUTES = 11;
-  BGP_GET_STATISTICS = 12;
-  BGP_CLEAR_ROUTES = 13;
-  BGP_ENABLE = 14;
-  BGP_DISABLE = 15;
-
-  BGP_SET_COMMUNITY = 16;
-  BGP_CLEAR_COMMUNITY = 17;
-  BGP_GET_SUMMARY = 18;
-  BGP_CLEAR_SESSION = 19;
-  BGP_RESET = 20;
-  BGP_SHOW_NEIGHBORS = 21;
-  BGP_SHOW_ROUTES = 22;
-  BGP_GET_STATUS = 23;
-  BGP_CLEAR_CACHE = 24;
-  BGP_OPTIMIZE_CACHE = 25;
-
-  BGP_APPLY_ROUTE_MAP = 26;
-  BGP_REMOVE_ROUTE_MAP = 27;
-  BGP_APPLY_COMMUNITY_LIST = 28;
-  BGP_REMOVE_COMMUNITY_LIST = 29;
-  BGP_APPLY_PREFIX_LIST = 30;
-  BGP_REMOVE_PREFIX_LIST = 31;
-
-  BGP_VALIDATE_ROUTE_MAP = 32;
-  BGP_VALIDATE_COMMUNITY_LIST = 33;
-  BGP_VALIDATE_PREFIX_LIST = 34;
-
-  BGP_GET_NEIGHBOR = 36;
-  BGP_LIST_NEIGHBORS = 37;
-  BGP_CHECK_NEIGHBOR_STATUS = 38;
-  BGP_GET_NEIGHBOR_STATE = 39;
-
-  BGP_GET_HEALTH_STATUS = 40;
-  BGP_GET_PROTOCOL_STATUS = 41;
-  BGP_GET_NEIGHBOR_STATISTICS = 42;
-  BGP_GET_PERFORMANCE_METRICS = 43;
-  BGP_VALIDATE_STATE_DATA = 44;
-  BGP_IS_NEIGHBOR_ESTABLISHED = 45;
-  BGP_GET_NEIGHBOR_UPTIME = 46;
-  BGP_GET_ROUTES_RECEIVED_COUNT = 47;
-
-  BGP_VALIDATE_CONFIG_CONSISTENCY = 54;
-  BGP_VALIDATE_NEIGHBOR_COMPATIBILITY = 55;
-  BGP_VALIDATE_AS_NUMBERS = 56;
-  BGP_VALIDATE_IP_ADDRESSES = 57;
-  BGP_CHECK_RESERVED_AS = 58;
-
-  BGP_RESET_BGP_SESSION = 65;
-  BGP_SOFT_RESET_BGP_SESSION = 66;
-
-  BGP_GET_REDISTRIBUTION_STATUS = 69;
-
-  BGP_GET_POLICY_CONFIG = 70;
+  BGP_ADD_NEIGHBOR = 3;
+  BGP_UPDATE_NEIGHBOR = 4;
+  BGP_LIST_NEIGHBORS = 5;
+  BGP_GET_NEIGHBOR = 6;
+  BGP_REMOVE_NEIGHBOR = 7;
+  BGP_GET_POLICY_CONFIG = 8;
+  BGP_APPLY_PREFIX_LIST = 9;
+  BGP_REMOVE_PREFIX_LIST = 10;
+  BGP_APPLY_COMMUNITY_LIST = 11;
+  BGP_REMOVE_COMMUNITY_LIST = 12;
+  BGP_APPLY_ROUTE_MAP = 13;
+  BGP_REMOVE_ROUTE_MAP = 14;
+  BGP_SHOW_ROUTES = 15;
+  BGP_GET_STATE = 16;
 }
 
-// Simplified BGP Configuration (IPv4 only)
+message RequestBgp {
+  BgpOperationType operation = 1;
+  BgpConfig config = 2;
+  BgpNeighbor neighbor = 3;
+  string peer_ip = 4;
+  BgpRouteMap route_map = 5;
+  BgpCommunityList community_list = 6;
+  BgpPrefixList prefix_list = 7;
+  uint32 as_number = 8;
+  uint32 local_as = 9;
+  uint32 remote_as = 10;
+  ClearBgp clear = 11;
+}
+
+message ResponseBgp {
+  BgpOperationType operation = 1;
+  bool success = 2;
+  string message = 3;
+  BgpConfig config = 4;
+  repeated BgpNeighbor neighbors = 5;
+  BgpState state = 6;
+  repeated BgpRouteMap route_maps = 7;
+  repeated BgpCommunityList community_lists = 8;
+  repeated BgpPrefixList prefix_lists = 9;
+  ShowBgpNeighbors show_neighbors = 10;
+  BgpNeighbor neighbor = 11;
+  BgpPolicyConfig policy_config = 12;
+  Routes routes = 13;
+  repeated string validation_errors = 14;
+  repeated string validation_warnings = 15;
+}
+
 message BgpConfig {
   uint32 autonomous_system = 1;
   string router_id = 2;
@@ -105,7 +81,12 @@ message BgpConfig {
   bool log_neighbor_changes = 18;
 }
 
-// Simplified BGP Neighbor Configuration (IPv4 only)
+message ClearBgp {
+  bool soft = 1;
+  string direction = 2;
+  string neighbor = 3;
+}
+
 message BgpNeighbor {
   string peer_ip = 1;
   uint32 remote_as = 2;
@@ -195,11 +176,6 @@ message BgpPrefixList {
   uint32 ge = 6; // greater-equal prefix length
 }
 
-// ============================================================================
-// VTYSH JSON Response Messages for Show Commands
-// ============================================================================
-
-// Response for "show bgp summary json"
 message ShowBgpSummary { map<string, BgpSummaryInstance> instances = 1; }
 
 message BgpSummaryInstance {
@@ -331,28 +307,6 @@ message BgpIpv4UnicastInfo {
   bool router_always_next_hop = 5;
 }
 
-// Response for "show bgp ipv4 unicast json"
-message ShowBgpRoutes { map<string, BgpRouteInfo> routes = 1; }
-
-message BgpRouteInfo { repeated BgpPath paths = 1; }
-
-message BgpPath {
-  bool valid = 1;
-  bool best = 2;
-  string nexthop = 3;
-  uint32 metric = 4;
-  uint32 local_pref = 5;
-  uint32 weight = 6;
-  string as_path = 7;
-  string origin = 8;
-  uint64 last_update = 9;
-  string peer_id = 10;
-}
-
-// ============================================================================
-// BGP State and Statistics (Simplified)
-// ============================================================================
-
 message BgpState {
   bool enabled = 1;
   uint32 autonomous_system = 2;
@@ -368,277 +322,10 @@ message BgpNeighborState {
   uint32 prefixes_sent = 5;
 }
 
-message BgpStatistics {
-  uint32 total_neighbors = 1;
-  uint32 established_neighbors = 2;
-  uint32 total_routes = 3;
-  uint32 ipv4_routes = 4;
-  uint32 ipv6_routes = 5;
-  uint64 memory_usage = 6;
-  BgpGlobalStatistics global_stats = 7;
-  repeated BgpTableStatistics table_stats = 8;
-  BgpMessageStatistics message_stats = 9;
-  repeated BgpNeighborStatistics neighbor_stats = 10;
-}
-
-message BgpGlobalStatistics {
-  uint64 updates_sent = 1;
-  uint64 updates_received = 2;
-  uint64 total_messages_sent = 3;
-  uint64 total_messages_received = 4;
-  uint64 dampened_routes = 5;
-  uint64 history_routes = 6;
-  uint64 suppressed_routes = 7;
-  uint64 withdraw_messages = 8;
-}
-
-message BgpTableStatistics {
-  string table_name = 1;
-  uint32 total_prefixes = 2;
-  uint32 memory_usage = 3;
-  uint32 dampened_prefixes = 4;
-  uint32 history_prefixes = 5;
-  uint32 valid_prefixes = 6;
-}
-
-message BgpMessageStatistics {
-  uint64 opens_sent = 1;
-  uint64 opens_received = 2;
-  uint64 notifications_sent = 3;
-  uint64 notifications_received = 4;
-  uint64 updates_sent = 5;
-  uint64 updates_received = 6;
-  uint64 keepalives_sent = 7;
-  uint64 keepalives_received = 8;
-  uint64 route_refresh_sent = 9;
-  uint64 route_refresh_received = 10;
-  uint64 capability_sent = 11;
-  uint64 capability_received = 12;
-  uint64 total_sent = 13;
-  uint64 total_received = 14;
-}
-
-// BGP Neighbor Statistics
-message BgpNeighborStatistics {
-  string peer_ip = 1;
-  uint64 messages_sent = 2;
-  uint64 messages_received = 3;
-  uint64 updates_sent = 4;
-  uint64 updates_received = 5;
-  uint64 keepalives_sent = 6;
-  uint64 keepalives_received = 7;
-  uint64 notifications_sent = 8;
-  uint64 notifications_received = 9;
-  uint64 route_refreshes_sent = 10;
-  uint64 route_refreshes_received = 11;
-  uint32 prefixes_received = 12;
-  uint32 prefixes_sent = 13;
-  string state = 14;
-  uint64 uptime = 15;
-}
-
-// =================== STATIC ROUTING CONFIGURATION ===================
-
-enum StaticOperationType {
-  STATIC_UNKNOWN = 0;
-  STATIC_GET_ROUTES = 1;
-  STATIC_ADD_ROUTE = 2;
-  STATIC_REMOVE_ROUTE = 3;
-  STATIC_UPDATE_ROUTE = 4;
-  STATIC_GET_CONFIG = 5;
-  STATIC_SET_CONFIG = 6;
-  STATIC_CLEAR_ALL_ROUTES = 7;
-  STATIC_GET_STATISTICS = 8;
-  STATIC_SHOW_ROUTES = 9; // show ip route json
-}
-
-// Static Route Configuration (IPv4 only)
-message StaticConfig {
-  repeated StaticRoute routes = 1;
-  repeated StaticRouteTable route_tables = 2;
-  repeated StaticNexthopGroup nexthop_groups = 3;
-  StaticGlobalConfig global_config = 4;
-}
-
-// Static Global Configuration (IPv4 only)
-message StaticGlobalConfig {
-  uint32 default_administrative_distance = 1;
-  uint32 default_metric = 2;
-  bool ip_forward = 3;
-}
-
-// Static Route (IPv4 only)
-message StaticRoute {
-  string destination = 1;             // Network in CIDR format
-  string gateway = 2;                 // Next-hop IP or interface
-  string interface = 3;               // Outgoing interface
-  uint32 metric = 4;                  // Route metric
-  uint32 administrative_distance = 5; // Administrative distance
-  uint32 table = 6;                   // Route table ID
-  string description = 7;             // Route description
-  StaticRouteType route_type = 8;
-  StaticRouteFlags flags = 9;
-  string source = 10;                 // Source IP for policy routing
-  repeated string nexthop_group = 11; // Nexthop group reference
-  string vrf = 12;                    // VRF name
-  bool onlink = 13;                   // Gateway is directly reachable
-}
-
-enum StaticRouteType {
-  STATIC_ROUTE_UNKNOWN = 0;
-  STATIC_ROUTE_UNICAST = 1;
-  STATIC_ROUTE_BLACKHOLE = 2;
-  STATIC_ROUTE_UNREACHABLE = 3;
-  STATIC_ROUTE_PROHIBIT = 4;
-  STATIC_ROUTE_LOCAL = 5;
-}
-
-// Static Route Flags
-message StaticRouteFlags {
-  bool reject = 1;
-  bool blackhole = 2;
-  bool no_resolve = 3;
-  bool onlink = 4;
-}
-
-// Static Route Table
-message StaticRouteTable {
-  uint32 table_id = 1;
-  string table_name = 2;
-  string description = 3;
-  repeated StaticRoute routes = 4;
-}
-
-// Static Nexthop Group (ECMP)
-message StaticNexthopGroup {
-  string name = 1;
-  repeated StaticNexthop nexthops = 2;
-  StaticNexthopGroupType type = 3;
-  string description = 4;
-}
-
-enum StaticNexthopGroupType {
-  NEXTHOP_GROUP_UNKNOWN = 0;
-  NEXTHOP_GROUP_MULTIPATH = 1;
-  NEXTHOP_GROUP_RESILIENT = 2;
-}
-
-// Static Nexthop
-message StaticNexthop {
-  string gateway = 1;
-  string interface = 2;
-  uint32 weight = 3;
-  uint32 preference = 4;
-  bool backup = 5;
-}
-
-// ============================================================================
-// VTYSH JSON Response Message for Static Routes
-// ============================================================================
-
-// Response for "show ip route json"
-message ShowStaticRoutes { map<string, StaticRouteEntry> routes = 1; }
-
-message StaticRouteEntry {
-  string prefix = 1;
-  repeated StaticRouteNexthop nexthops = 2;
-}
-
-message StaticRouteNexthop {
-  string nexthop = 1;
-  string interface = 2;
-  uint32 metric = 3;
-  uint32 administrative_distance = 4;
-  bool active = 5;
-  bool fib = 6;
-}
-
-// Static Route Statistics (IPv4 only)
-message StaticStatistics {
-  uint32 total_routes = 1;
-  uint32 ipv4_routes = 2;
-  uint32 active_routes = 3;
-  uint32 inactive_routes = 4;
-  repeated StaticTableStatistics table_stats = 5;
-  StaticRouteTypeStatistics route_type_stats = 6;
-  StaticNexthopGroupStatistics nexthop_group_stats = 7;
-}
-
-// Static Table Statistics
-message StaticTableStatistics {
-  uint32 table_id = 1;
-  string table_name = 2;
-  uint32 route_count = 3;
-  uint32 active_routes = 4;
-  uint32 inactive_routes = 5;
-}
-
-// Static Route Type Statistics
-message StaticRouteTypeStatistics {
-  uint32 unicast_routes = 1;
-  uint32 blackhole_routes = 2;
-  uint32 unreachable_routes = 3;
-  uint32 prohibit_routes = 4;
-  uint32 local_routes = 5;
-}
-
-// Static Nexthop Group Statistics
-message StaticNexthopGroupStatistics {
-  uint32 total_groups = 1;
-  uint32 multipath_groups = 2;
-  uint32 resilient_groups = 3;
-  uint32 total_nexthops = 4;
-  uint32 active_nexthops = 5;
-}
-
-// =================== FRR REQUEST/RESPONSE MESSAGES ===================
-
-// BGP Request
-message RequestBgp {
-  BgpOperationType operation = 1;
-  BgpConfig config = 2;
-  BgpNeighbor neighbor = 3;
-  string peer_ip = 5;
-  string network_prefix = 6;
-  BgpRouteMap route_map = 7;
-  BgpCommunityList community_list = 8;
-  BgpPrefixList prefix_list = 9;
-  string community = 10;
-  uint32 as_number = 11;
-  repeated string ip_addresses = 12;
-  uint32 local_as = 13;
-  uint32 remote_as = 14;
-  string soft_reset_direction = 15;
-  string session_type = 16;
-  bool include_inactive = 17;
-  string filter_criteria = 18;
-}
-
-// BGP Response
-message ResponseBgp {
-  BgpOperationType operation = 1;
-  bool success = 2;
-  string message = 3;
-  BgpConfig config = 4;
-  repeated BgpNeighbor neighbors = 5;
-  BgpState state = 6;
-  repeated BgpRouteMap route_maps = 7;
-  repeated BgpCommunityList community_lists = 8;
-  repeated BgpPrefixList prefix_lists = 9;
-  ShowBgpNeighbors show_neighbors = 10;
-  BgpNeighbor neighbor = 11;
-  BgpPolicyConfig policy_config = 12;
-  Routes routes = 13;
-  repeated string validation_errors = 14;
-  repeated string validation_warnings = 15;
-}
-
 message Routes {
   ReceivedRoutes received = 1;
   repeated AdvertisedRoutes advertised = 2;
 }
-
-// ---- RECEIVED ----
 
 message ReceivedRoutes {
   uint32 total_routes = 1;
@@ -673,8 +360,6 @@ message Nexthop {
   bool used = 4;
 }
 
-// ---- ADVERTISED ----
-
 message AdvertisedRoutes {
   string neighbor_ip = 1;
   string router_id = 2;
@@ -699,74 +384,9 @@ message AdvertisedRouteEntry {
   bool best = 10;
 }
 
-// BGP Policy Configuration Response
 message BgpPolicyConfig {
   repeated BgpRouteMap route_maps = 1;
   repeated BgpCommunityList community_lists = 2;
   repeated BgpPrefixList prefix_lists = 3;
   map<string, string> policy_statistics = 4;
 }
-
-// Static Routing Request
-message RequestStatic {
-  StaticOperationType operation = 1;
-  StaticConfig config = 2;
-  StaticRoute route = 3;
-  StaticRouteTable route_table = 4;
-  StaticNexthopGroup nexthop_group = 5;
-  uint32 table_id = 6;
-  string filter_criteria = 7;
-}
-
-// Static Routing Response
-message ResponseStatic {
-  StaticOperationType operation = 1;
-  bool success = 2;
-  string message = 3;
-  StaticConfig config = 4;
-  repeated StaticRoute routes = 5;
-  repeated StaticRouteTable route_tables = 6;
-  repeated StaticNexthopGroup nexthop_groups = 7;
-  StaticStatistics statistics = 8;
-
-  // VTYSH JSON response
-  ShowStaticRoutes show_routes = 9;
-}
-
-// BGP Comprehensive Status Message
-message BgpStatus {
-  uint32 as_number = 1;
-  bool enabled = 2;
-  bool daemon_running = 3;
-  bool config_valid = 4;
-  map<string, int64> cache_statistics = 5;
-  map<string, int64> network_metrics = 6;
-  BgpPerformanceMetrics performance_metrics = 7;
-  BgpHealthStatus health_status = 8;
-  uint64 timestamp = 9;
-  string status_message = 10;
-}
-
-// BGP Performance Metrics
-message BgpPerformanceMetrics {
-  map<string, double> cache_hit_ratios = 1;
-  uint64 estimated_cache_memory_kb = 2;
-  uint32 go_routines = 3;
-  uint64 memory_alloc_mb = 4;
-  uint64 total_alloc_mb = 5;
-  uint64 sys_mb = 6;
-  uint32 num_gc = 7;
-  bool optimization_recommended = 8;
-}
-
-// BGP Health Status
-message BgpHealthStatus {
-  bool healthy = 1;
-  bool daemon_running = 2;
-  bool config_valid = 3;
-  uint32 neighbors_connected = 4;
-  uint32 total_neighbors = 5;
-  repeated string issues = 6;
-  double connection_ratio = 7;
-}
-

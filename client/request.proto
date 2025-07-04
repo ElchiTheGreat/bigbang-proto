@@ -61,7 +61,6 @@ message RequestNetwork { repeated Interfaces interfaces = 1; }
 message RequestFrr {
   FrrProtocolType protocol = 1;
   RequestBgp bgp = 2;
-  RequestStatic static = 3;
 }
 
 

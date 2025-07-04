@@ -48,13 +48,12 @@ message ResponseBgp {
   bool success = 2;
   string message = 3;
   BgpConfig config = 4;
-  BgpState state = 6;
-  ShowBgpNeighbors show_neighbors = 7;
-  BgpNeighbor neighbor = 8;
-  BgpPolicyConfig policy_config = 9;
-  Routes routes = 10;
-  repeated string validation_errors = 11;
-  repeated string validation_warnings = 12;
+  ShowBgpNeighbors show_neighbors = 6;
+  BgpNeighbor neighbor = 7;
+  BgpPolicyConfig policy_config = 8;
+  Routes routes = 9;
+  repeated string validation_errors = 10;
+  repeated string validation_warnings = 11;
 }
 
 message BgpConfig {
@@ -301,21 +300,6 @@ message BgpIpv4UnicastInfo {
   string outbound_ebgp_requires_policy = 3;
   uint32 accepted_prefix_counter = 4;
   bool router_always_next_hop = 5;
-}
-
-message BgpState {
-  bool enabled = 1;
-  uint32 autonomous_system = 2;
-  string router_id = 3;
-  repeated BgpNeighborState neighbor_states = 4;
-}
-
-message BgpNeighborState {
-  string peer_ip = 1;
-  string state = 2;
-  uint64 uptime = 3;
-  uint32 prefixes_received = 4;
-  uint32 prefixes_sent = 5;
 }
 
 message Routes {

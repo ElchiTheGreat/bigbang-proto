@@ -50,9 +50,6 @@ message ResponseBgp {
   BgpConfig config = 4;
   repeated BgpNeighbor neighbors = 5;
   BgpState state = 6;
-  repeated BgpRouteMap route_maps = 7;
-  repeated BgpCommunityList community_lists = 8;
-  repeated BgpPrefixList prefix_lists = 9;
   ShowBgpNeighbors show_neighbors = 10;
   BgpNeighbor neighbor = 11;
   BgpPolicyConfig policy_config = 12;

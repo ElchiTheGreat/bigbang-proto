@@ -38,7 +38,7 @@ message Command {
     RequestUpdateBootstrap update_bootstrap = 12;
     RequestEnvoyAdmin envoy_admin = 13;
     RequestUnDeploy undeploy = 14;
-    RequestClientLog client_log = 15;
+    RequestGeneralLog client_log = 15;
     RequestClientStats client_stats = 16;
     RequestNetwork network = 17;
     RequestFrr frr = 18;

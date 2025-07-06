@@ -52,7 +52,7 @@ message RequestEnvoyAdmin {
   string body = 6;
 }
 
-message RequestClientLog { uint32 count = 1; }
+message RequestGeneralLog { uint32 count = 1; }
 
 message RequestClientStats {}
 

@@ -57,7 +57,7 @@ message CommandResponse {
     ResponseUpdateBootstrap update_bootstrap = 12;
     ResponseEnvoyAdmin envoy_admin = 13;
     ResponseUnDeploy undeploy = 14;
-    ResponseClientLog client_log = 15;
+    ResponseGeneralLog general_log = 15;
     ResponseClientStats client_stats = 16;
     ResponseNetwork network = 17;
     ResponseFrr frr = 18;

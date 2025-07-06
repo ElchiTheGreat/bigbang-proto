@@ -55,7 +55,7 @@ message ResponseEnvoyAdmin {
   map<string, string> headers = 3;
 }
 
-message ClientLogs {
+message GeneralLogs {
   string message = 1;
   string level = 2;
   string module = 3;
@@ -64,7 +64,8 @@ message ClientLogs {
   map<string, string> metadata = 6;
 }
 
-message ResponseClientLog { repeated ClientLogs logs = 1; }
+message ResponseGeneralLog { repeated GeneralLogs logs = 1; }
+
 
 message ResponseClientStats {
   CPUStats cpu = 1;

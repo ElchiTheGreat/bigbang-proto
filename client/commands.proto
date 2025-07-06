@@ -28,5 +28,7 @@ enum CommandType {
   // NETWORK
   NETWORK = 51;
 
-  FRR=61;
+  // FRR
+  FRR = 61;
+  FRR_LOGS = 62;
 }
